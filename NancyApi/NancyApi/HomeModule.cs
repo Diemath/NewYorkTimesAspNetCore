@@ -6,8 +6,24 @@ namespace NancyApi
   {
     public HomeModule()
     {
-      Get("/", _ => "Hello World!!!");
-      Get("/about", _ => "Brought to you buy FancyFX");
+      Get("/", _ => {
+        return "Hello World!!!";
+      });
+      Get("/list/{section}", _ => {
+        return $"section: {_.section}";
+      });
+      Get("/list/{section}/first", _ => {
+        return $"section: {_.section}";
+      });
+      Get("/list/{section}/{updatedDate}", _ => {
+        return $"section: {_.section}; updatedDate: {_.updatedDate}";
+      });
+      Get("/article/{shortUrl}", _ => {
+        return $"shortUrl: {_.shortUrl}";
+      });
+      Get("/group/{section}", _ => {
+        return $"section: {_.section}";
+      });
     }
   }
 }
