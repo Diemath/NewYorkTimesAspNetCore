@@ -7,20 +7,42 @@ namespace NancyApi.Test
 {
   public class ArticlesModuleTest
   {
-    [Fact]
-    public async Task ShouldReturnStatusOkWhenRouteExists()
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/list/test-section")]
+    [InlineData("/list/test-section/first")]
+    [InlineData("/list/test-section/test-updated-date")]
+    [InlineData("/article/short-url")]
+    [InlineData("/group/test-section")]
+    public async Task ShouldReturnStatusOkWhenRouteExists(string route)
     {
       // Given
       var bootstrapper = new ConfigurableBootstrapper(with => with.Module<ArticlesModule>());
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get("/", with => {
+      var result = await browser.Get(route, with => {
         with.HttpsRequest();
       });
 
       // Then
       Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task ShouldReturnStatusNotFoundWhenRouteDoesNotExist()
+    {
+      // Given
+      var bootstrapper = new ConfigurableBootstrapper(with => with.Module<ArticlesModule>());
+      var browser = new Browser(bootstrapper);
+
+      // When
+      var result = await browser.Get("/unexisting-route", with => {
+        with.HttpsRequest();
+      });
+
+      // Then
+      Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
   }
 }
