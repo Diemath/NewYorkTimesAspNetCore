@@ -1,5 +1,6 @@
 using Nancy;
 using Nancy.Testing;
+using NancyApi.Modules;
 using System.Threading.Tasks;
 using Xunit;
 

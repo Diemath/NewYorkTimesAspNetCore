@@ -2,7 +2,7 @@
 using Nancy.ModelBinding;
 using System;
 
-namespace NancyApi
+namespace NancyApi.Modules
 {
   public class ArticlesModule : NancyModule
   {
