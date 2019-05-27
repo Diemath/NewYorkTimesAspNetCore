@@ -1,0 +1,32 @@
+﻿namespace Services.Abstractions.Enums
+{
+  public enum ArticleSection
+  {
+    Arts,
+    Automobiles,
+    Books,
+    Business,
+    Fashion,
+    Food,
+    Health,
+    Home,
+    Insider,
+    Magazine,
+    Movies,
+    National,
+    Nyregion,
+    Obituaries,
+    Opinion,
+    Politics,
+    Realestate,
+    Science,
+    Sports,
+    Sundayreview,
+    Technology,
+    Theater,
+    Tmagazine,
+    Travel,
+    Upshot,
+    World
+  }
+}
