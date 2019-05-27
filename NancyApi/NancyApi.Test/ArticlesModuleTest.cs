@@ -1,6 +1,8 @@
 using Nancy;
 using Nancy.Testing;
 using NancyApi.Modules;
+using Services.Abstractions;
+using Services.Concrete;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,7 +20,10 @@ namespace NancyApi.Test
     public async Task ShouldReturnStatusOkWhenRouteExists(string route)
     {
       // Given
-      var bootstrapper = new ConfigurableBootstrapper(with => with.Module<ArticlesModule>());
+      var bootstrapper = new ConfigurableBootstrapper(with => {
+          with.Module<ArticlesModule>();
+          with.Dependency<IArticleService>(typeof(ArticleService));
+        });
       var browser = new Browser(bootstrapper);
 
       // When
@@ -34,7 +39,10 @@ namespace NancyApi.Test
     public async Task ShouldReturnStatusNotFoundWhenRouteDoesNotExist()
     {
       // Given
-      var bootstrapper = new ConfigurableBootstrapper(with => with.Module<ArticlesModule>());
+      var bootstrapper = new ConfigurableBootstrapper(with => {
+        with.Module<ArticlesModule>();
+        with.Dependency<IArticleService>(typeof(ArticleService));
+      });
       var browser = new Browser(bootstrapper);
 
       // When

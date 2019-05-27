@@ -15,6 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NancyApi\NancyApi.csproj" />
+    <ProjectReference Include="..\Services.Abstractions\Services.Abstractions.csproj" />
+    <ProjectReference Include="..\Services.Concrete\Services.Concrete.csproj" />
   </ItemGroup>
 
 </Project>
