@@ -16,6 +16,7 @@ namespace Services.Concrete
       string responseMessage;
       var sb = new StringBuilder(url);
 
+      //linq
       if (parameters.Any())
       {
         NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
@@ -23,7 +24,9 @@ namespace Services.Concrete
         foreach (KeyValuePair<string, string> keyValuePair in parameters)
           nameValueCollection[keyValuePair.Key] = keyValuePair.Value;
         
-        sb.Append("?").Append(nameValueCollection.ToString());
+        sb
+          .Append("?")
+          .Append(nameValueCollection.ToString());
       }
 
       using (var client = new HttpClient())
