@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NancyApi", "NancyApi\NancyApi.csproj", "{38C24D7E-5297-4BD5-A42C-E2C2C14E5FF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NYTimes.NancyApi", "NYTimes.NancyApi\NYTimes.NancyApi.csproj", "{38C24D7E-5297-4BD5-A42C-E2C2C14E5FF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NancyApi.Test", "NancyApi.Test\NancyApi.Test.csproj", "{E52C8215-CEAF-4870-B37D-0FAB48B555DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NYTimes.NancyApi.Test", "NYTimes.NancyApi.Test\NYTimes.NancyApi.Test.csproj", "{E52C8215-CEAF-4870-B37D-0FAB48B555DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Abstractions", "Services.Abstractions\Services.Abstractions.csproj", "{469B49FF-507C-4229-BB89-C43B9D0A67AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NYTimes.Services.Abstractions", "NYTimes.Services.Abstractions\NYTimes.Services.Abstractions.csproj", "{469B49FF-507C-4229-BB89-C43B9D0A67AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Concrete", "Services.Concrete\Services.Concrete.csproj", "{5D090A1B-5AEB-470C-BA63-4D8AE5BD690E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NYTimes.Services", "NYTimes.Services\NYTimes.Services.csproj", "{5D090A1B-5AEB-470C-BA63-4D8AE5BD690E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Test", "Services.Test\Services.Test.csproj", "{FAAB6DC5-FBCE-40C5-80C9-CA9B45BEADDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NYTimes.Services.Test", "NYTimes.Services.Test\NYTimes.Services.Test.csproj", "{FAAB6DC5-FBCE-40C5-80C9-CA9B45BEADDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
