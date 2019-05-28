@@ -74,7 +74,7 @@ namespace Services.Concrete
 
     private async Task<IEnumerable<ArticleJson>> FilterArticlesBySectionAsync(Section section)
     {
-      string responseMessage = await _httpGetter.GetAsync($"{_apiConfig.BaseUrl}{section.ToString().ToLower()}.json", 
+      string responseMessage = await _httpGetter.GetAsync($"{_apiConfig.BaseUrl}{section.ToString().ToLower()}.json",
         new KeyValuePair<string, string>("format", "json"),
         new KeyValuePair<string, string>("api-key", _apiConfig.Id)
       );

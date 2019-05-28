@@ -22,7 +22,7 @@ namespace Services.Concrete
 
         foreach (KeyValuePair<string, string> keyValuePair in requestQuery)
           nameValueCollection[keyValuePair.Key] = keyValuePair.Value;
-        
+
         sb.Append("?")
           .Append(nameValueCollection.ToString());
       }

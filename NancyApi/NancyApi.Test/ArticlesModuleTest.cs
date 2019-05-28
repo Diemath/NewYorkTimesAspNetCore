@@ -2,7 +2,7 @@ using Moq;
 using Nancy;
 using Nancy.Testing;
 using Nancy.Validation;
-using NancyApi.Modules;
+using NancyApi.NancyModules;
 using NancyApi.Validators;
 using Newtonsoft.Json;
 using Services.Abstractions;
@@ -27,15 +27,17 @@ namespace NancyApi.Test
     [InlineData("/group/arts")]
     public async Task ReturnsStatusOkWhenRouteExists(string route)
     {
-      var configurableBootstrapper = new ConfigurableBootstrapper(with => {
-          with.Module<ArticlesModule>();
-          with.Dependency(_mockArticleService.Object);
-        });
+      var configurableBootstrapper = new ConfigurableBootstrapper(with =>
+      {
+        with.Module<ArticlesModule>();
+        with.Dependency(_mockArticleService.Object);
+      });
 
       var browser = new Browser(configurableBootstrapper);
 
       // When
-      var result = await browser.Get(route, with => {
+      var result = await browser.Get(route, with =>
+      {
         with.HttpsRequest();
       });
 
@@ -51,7 +53,8 @@ namespace NancyApi.Test
       mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
         .ReturnsAsync(new ArticleDto[] { });
 
-      var configurableBootstrapper = new ConfigurableBootstrapper(with => {
+      var configurableBootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
@@ -59,7 +62,8 @@ namespace NancyApi.Test
       var browser = new Browser(configurableBootstrapper);
 
       // When
-      var result = await browser.Get("/unexisting-route", with => {
+      var result = await browser.Get("/unexisting-route", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -82,14 +86,16 @@ namespace NancyApi.Test
           }
         });
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/list/arts", with => {
+      var result = await browser.Get($"/list/arts", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -107,13 +113,15 @@ namespace NancyApi.Test
       // Given
       var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
       mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
-        .ReturnsAsync(new ArticleDto {
-            Title = "test-title",
-            Url = "test-url",
-            UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
+        .ReturnsAsync(new ArticleDto
+        {
+          Title = "test-title",
+          Url = "test-url",
+          UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
         });
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
@@ -121,7 +129,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/list/arts/first", with => {
+      var result = await browser.Get($"/list/arts/first", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -141,7 +150,8 @@ namespace NancyApi.Test
       mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
         .ReturnsAsync((ArticleDto)null);
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency(mockArticleService.Object);
       });
@@ -149,7 +159,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/list/arts/first", with => {
+      var result = await browser.Get($"/list/arts/first", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -179,7 +190,8 @@ namespace NancyApi.Test
           }
         });
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
@@ -187,7 +199,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/list/arts/2019-05-24", with => {
+      var result = await browser.Get($"/list/arts/2019-05-24", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -212,7 +225,8 @@ namespace NancyApi.Test
           UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
         });
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
@@ -220,7 +234,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/article/test-short-url", with => {
+      var result = await browser.Get($"/article/test-short-url", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -240,7 +255,8 @@ namespace NancyApi.Test
       mockArticleService.Setup(g => g.GetArticleAsync("test-short-url"))
         .ReturnsAsync((ArticleDto)null);
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency(mockArticleService.Object);
       });
@@ -248,7 +264,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/article/test-short-url", with => {
+      var result = await browser.Get($"/article/test-short-url", with =>
+      {
         with.HttpsRequest();
       });
 
@@ -276,7 +293,8 @@ namespace NancyApi.Test
           }
         });
 
-      var bootstrapper = new ConfigurableBootstrapper(with => {
+      var bootstrapper = new ConfigurableBootstrapper(with =>
+      {
         with.Module<ArticlesModule>();
         with.Dependency<IArticleService>(mockArticleService.Object);
       });
@@ -284,7 +302,8 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/group/arts", with => {
+      var result = await browser.Get($"/group/arts", with =>
+      {
         with.HttpsRequest();
       });
 

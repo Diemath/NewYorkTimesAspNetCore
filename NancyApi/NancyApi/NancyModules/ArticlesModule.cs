@@ -11,7 +11,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 
-namespace NancyApi.Modules
+namespace NancyApi.NancyModules
 {
   public class ArticlesModule : NancyModule
   {
@@ -23,11 +23,13 @@ namespace NancyApi.Modules
     {
       _articleService = articleService;
 
-      Get("/", _ => {
+      Get("/", _ =>
+      {
         return string.Empty;
       });
 
-      Get("/list/{section}", async _ => {
+      Get("/list/{section}", async _ =>
+      {
         var @params = this.Bind<ArticlesBySectionQueryParams>();
         var validationResult = this.Validate(@params);
 
@@ -43,7 +45,8 @@ namespace NancyApi.Modules
         return Response.AsJson(dtos.Select(MapToVm));
       });
 
-      Get("/list/{section}/first", async _ => {
+      Get("/list/{section}/first", async _ =>
+      {
         var @params = this.Bind<ArticlesBySectionQueryParams>();
         var validationResult = this.Validate(@params);
 
@@ -64,7 +67,8 @@ namespace NancyApi.Modules
         return Response.AsJson(MapToVm(dto));
       });
 
-      Get("/list/{section}/{updatedDate}", async _ => {
+      Get("/list/{section}/{updatedDate}", async _ =>
+      {
         var @params = this.Bind<ArticlesBySectionAndDateQueryParams>();
         var validationResult = this.Validate(@params);
 
@@ -74,14 +78,15 @@ namespace NancyApi.Modules
         }
 
         var dtos = await _articleService.FilterArticlesAsync(
-          ParseSection(@params.Section), 
+          ParseSection(@params.Section),
           ParseDate(@params.UpdatedDate)
         );
 
         return Response.AsJson(dtos.Select(MapToVm));
       });
 
-      Get("/article/{shortUrl}", async _ => {
+      Get("/article/{shortUrl}", async _ =>
+      {
         var @params = this.Bind<ArticlesByShortUrlQueryParams>();
         var validationResult = this.Validate(@params);
 
@@ -102,7 +107,8 @@ namespace NancyApi.Modules
         return Response.AsJson(MapToVm(dto));
       });
 
-      Get("/group/{section}", async _ => {
+      Get("/group/{section}", async _ =>
+      {
         var @params = this.Bind<ArticlesBySectionQueryParams>();
         var validationResult = this.Validate(@params);
 

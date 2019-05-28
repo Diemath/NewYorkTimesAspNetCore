@@ -281,7 +281,7 @@ namespace Services.Test
         var mockHttpGetter = new Mock<IHttpRequestHelper>(MockBehavior.Strict);
         mockHttpGetter.Setup(g => g.GetAsync($"https://api.sometesturl.com/home.json", It.Is<KeyValuePair<string, string>[]>(x => x.Any(y => y.Key == "api-key" && y.Value == "test-unique-identifier"))))
           .ReturnsAsync("{results: []}");
-        
+
         // Act
         var target = new ArticleService(mockHttpGetter.Object, _mockConfigProvider.Object);
         await target.GetArticleAsync("XXXXXXX");
@@ -308,7 +308,7 @@ namespace Services.Test
               ]
             }
           ");
-        
+
         // Act
         var target = new ArticleService(mockHttpGetter.Object, _mockConfigProvider.Object);
         var result = await target.GetArticleAsync("2YNxSD2");
@@ -318,7 +318,7 @@ namespace Services.Test
         Assert.Equal("test-url", result.Url);
         Assert.Equal("5/24/2019 6:24:16 PM", result.UpdatedDateTime.ToString());
       }
-      
+
       [Fact]
       public async Task TakesFirstFoundArticle()
       {
@@ -349,7 +349,7 @@ namespace Services.Test
               ]
             }
           ");
-        
+
         // Act
         var target = new ArticleService(mockHttpGetter.Object, _mockConfigProvider.Object);
         var result = await target.GetArticleAsync("2YNxSD2");

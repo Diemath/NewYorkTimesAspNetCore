@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using NancyApi.Models;
+using NancyApi.Validators.Extensions;
 using Services.Abstractions.Enums;
 
 namespace NancyApi.Validators
@@ -8,8 +9,8 @@ namespace NancyApi.Validators
   {
     public ArticlesBySectionAndDateQueryParamsValidator()
     {
-      RuleFor(x => x.UpdatedDate).Must(x => x.BeValidDate()).WithMessage("Valid format for updated date is yyyy-MM-dd.");
-      RuleFor(x => x.Section).Must(x => x.BeFromSectionEnum()).WithMessage($"The possible section value are: {typeof(Section).JoinValues<Section>()}.");
+      RuleFor(x => x.UpdatedDate).MustBeValidDate();
+      RuleFor(x => x.Section).MustBeFromSectionEnum();
     }
   }
 
@@ -17,7 +18,7 @@ namespace NancyApi.Validators
   {
     public ArticlesBySectionQueryParamsValidator()
     {
-      RuleFor(x => x.Section).Must(x => x.BeFromSectionEnum()).WithMessage($"The possible section value are: {typeof(Section).JoinValues<Section>()}.");
+      RuleFor(x => x.Section).MustBeFromSectionEnum();
     }
   }
 
@@ -25,7 +26,7 @@ namespace NancyApi.Validators
   {
     public ArticlesByShortUrlQueryParamsValidator()
     {
-      RuleFor(x => x.ShortUrl).Length(7).WithMessage("Valid format for short url is XXXXXXX.");
+      RuleFor(x => x.ShortUrl).MustHaveExactLength();
     }
   }
 }
