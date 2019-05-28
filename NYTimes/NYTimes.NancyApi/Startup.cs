@@ -21,12 +21,11 @@ namespace NancyApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IHttpRequestHelper, HttpRequestHelper>();
             services.AddTransient<IArticleService, ArticleService>();
+            services.Configure<AppConfig>(Configuration.GetSection("Api"));
 
             var appConfig = new AppConfig();
             ConfigurationBinder.Bind(Configuration, appConfig);
@@ -35,7 +34,6 @@ namespace NancyApi
             Services = services;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var appConfig = new AppConfig();
