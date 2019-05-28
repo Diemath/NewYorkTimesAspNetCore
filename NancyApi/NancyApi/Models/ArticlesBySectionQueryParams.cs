@@ -4,6 +4,6 @@ namespace NancyApi.Models
 {
   public class ArticlesBySectionQueryParams
   {
-    public Section Section { get; set; }
+    public string Section { get; set; }
   }
 }

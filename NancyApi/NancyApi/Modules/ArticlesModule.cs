@@ -6,6 +6,7 @@ using Nancy.Validation;
 using NancyApi.Models;
 using Services.Abstractions;
 using Services.Abstractions.Dto;
+using Services.Abstractions.Enums;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace NancyApi.Modules
         }
 
         var dtos = await _articleService.FilterArticlesAsync(
-          @params.Section
+          ParseSection(@params.Section)
         );
 
         return Response.AsJson(dtos.Select(MapToVm));
@@ -52,12 +53,12 @@ namespace NancyApi.Modules
         }
 
         var dto = await _articleService.GetArticleAsync(
-          @params.Section
+          ParseSection(@params.Section)
         );
 
         if (dto is null)
         {
-          return HttpStatusCode.NotFound;
+          return GetNotFoundResult(this);
         }
 
         return Response.AsJson(MapToVm(dto));
@@ -73,8 +74,8 @@ namespace NancyApi.Modules
         }
 
         var dtos = await _articleService.FilterArticlesAsync(
-          @params.Section, 
-          DateTime.ParseExact(@params.UpdatedDate, _validDateFormat, CultureInfo.InvariantCulture)
+          ParseSection(@params.Section), 
+          ParseDate(@params.UpdatedDate)
         );
 
         return Response.AsJson(dtos.Select(MapToVm));
@@ -95,7 +96,7 @@ namespace NancyApi.Modules
 
         if (dto is null)
         {
-          return HttpStatusCode.NotFound;
+          return GetNotFoundResult(this);
         }
 
         return Response.AsJson(MapToVm(dto));
@@ -111,7 +112,7 @@ namespace NancyApi.Modules
         }
 
         var dtos = await _articleService.GetGroupsAsync(
-          @params.Section
+          ParseSection(@params.Section)
         );
 
         return Response.AsJson(dtos.Select(MapToVm));
@@ -137,7 +138,16 @@ namespace NancyApi.Modules
       };
     }
 
-    private Negotiator GetErrorResult(ArticlesModule articlesModule, ModelValidationResult modelValidationResult)
-      => articlesModule.Negotiate.WithModel(modelValidationResult).WithStatusCode(HttpStatusCode.BadRequest);
+    private Response GetErrorResult(ArticlesModule articlesModule, ModelValidationResult modelValidationResult)
+      => articlesModule.Response.AsJson(modelValidationResult, HttpStatusCode.BadRequest);
+
+    private Response GetNotFoundResult(ArticlesModule articlesModule)
+      => articlesModule.Response.AsJson(new { status = nameof(HttpStatusCode.NotFound) }, HttpStatusCode.NotFound);
+
+    private Section ParseSection(string section)
+      => (Section)Enum.Parse(typeof(Section), section, true);
+
+    private DateTime ParseDate(string date)
+      => DateTime.ParseExact(date, _validDateFormat, CultureInfo.InvariantCulture);
   }
 }
