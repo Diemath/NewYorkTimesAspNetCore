@@ -13,9 +13,9 @@ namespace NancyApi
   {
     protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
     {
-      container.Register<IHttpGetter, HttpGetter>();
+      container.Register<IHttpRequestHelper, HttpRequestHelper>();
       container.Register<IArticleService, ArticleService>();
-
+      
       var appConfig = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("appsettings.json"));
       container.Register<IConfigProvider, ConfigProvider>(new ConfigProvider(appConfig));
     }

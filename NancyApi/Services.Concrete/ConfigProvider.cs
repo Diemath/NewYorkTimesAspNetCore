@@ -5,13 +5,11 @@ namespace Services.Concrete
 {
   public class ConfigProvider : IConfigProvider
   {
-    private readonly AppConfig _appConfig;
-
     public ConfigProvider(AppConfig appConfig)
     {
-      _appConfig = appConfig;
+      Config = appConfig;
     }
 
-    public AppConfig Config => _appConfig;
+    public AppConfig Config { get; }
   }
 }

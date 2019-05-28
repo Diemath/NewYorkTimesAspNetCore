@@ -1,23 +1,22 @@
 using Moq;
 using Nancy;
-using Nancy.Json;
 using Nancy.Testing;
+using Nancy.Validation;
 using NancyApi.Modules;
+using NancyApi.Validators;
 using Newtonsoft.Json;
 using Services.Abstractions;
-using Services.Abstractions.Configurations;
 using Services.Abstractions.Dto;
 using Services.Abstractions.Enums;
-using Services.Concrete;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace NancyApi.Test
 {
-  public class ArticlesModuleTest
+  // IArticlesService should be mock
+  public class ArticlesModuleTest : ArticlesModuleTestBase
   {
     [Theory]
     [InlineData("/")]
@@ -26,22 +25,11 @@ namespace NancyApi.Test
     [InlineData("/list/art/2019-12-11")]
     [InlineData("/article/short-url")]
     [InlineData("/group/art")]
-    public async Task ShouldReturnStatusOkWhenRouteExists(string route)
+    public async Task ReturnsStatusOkWhenRouteExists(string route)
     {
-      // Given
-      var mockArticleService = new Mock<IArticleService>();
-      mockArticleService.Setup(g => g.GetBySectionAsync(It.IsAny<ArticleSection>()))
-        .ReturnsAsync(new ArticleDto[] { });
-      mockArticleService.Setup(g => g.GetGroupsBySectionAsync(It.IsAny<ArticleSection>()))
-        .ReturnsAsync(new ArticleGroupByDateDto[] { });
-      mockArticleService.Setup(g => g.GetAsync(It.IsAny<string>()))
-        .ReturnsAsync(new ArticleDto { });
-      mockArticleService.Setup(g => g.GetFirstBySectionAsync(It.IsAny<ArticleSection>()))
-        .ReturnsAsync(new ArticleDto { });
-
       var configurableBootstrapper = new ConfigurableBootstrapper(with => {
           with.Module<ArticlesModule>();
-          with.Dependency<IArticleService>(mockArticleService.Object);
+          with.Dependency(_mockArticleService.Object);
         });
 
       var browser = new Browser(configurableBootstrapper);
@@ -60,7 +48,7 @@ namespace NancyApi.Test
     {
       // Given
       var mockArticleService = new Mock<IArticleService>();
-      mockArticleService.Setup(g => g.GetBySectionAsync(ArticleSection.Arts))
+      mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
         .ReturnsAsync(new ArticleDto[] { });
 
       var configurableBootstrapper = new ConfigurableBootstrapper(with => {
@@ -83,18 +71,14 @@ namespace NancyApi.Test
     public async Task ShouldReturnJsonWhenFilteredByExistingSectionListRequested()
     {
       // Given
-      var testTitle = "test-title";
-      var testUrl = "test-url";
-      var testUpdatedDate = "5/24/2019 6:24:16 PM";
-
       var mockArticleService = new Mock<IArticleService>();
-      mockArticleService.Setup(g => g.GetBySectionAsync(ArticleSection.Arts))
+      mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
         .ReturnsAsync(new ArticleDto[] {
           new ArticleDto
           {
-            Title = testTitle,
-            Url = testUrl,
-            UpdatedDateTime = DateTime.Parse(testUpdatedDate, CultureInfo.InvariantCulture)
+            Title = "test-title",
+            Url = "test-url",
+            UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
           }
         });
 
@@ -112,8 +96,8 @@ namespace NancyApi.Test
       // Then
       var body = JsonConvert.DeserializeObject<ArticleTest[]>(result.Body.AsString());
 
-      Assert.Equal(testTitle, body[0].heading);
-      Assert.Equal(testUrl, body[0].link);
+      Assert.Equal("test-title", body[0].heading);
+      Assert.Equal("test-url", body[0].link);
       Assert.Equal("2019-05-24T18:24:16.0000000+03:00", body[0].updated);
     }
 
@@ -121,16 +105,12 @@ namespace NancyApi.Test
     public async Task ShouldReturnJsonWhenFirstFilteredByExistingSectionRequested()
     {
       // Given
-      var testTitle = "test-title";
-      var testUrl = "test-url";
-      var testUpdatedDate = "5/24/2019 6:24:16 PM";
-
       var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-      mockArticleService.Setup(g => g.GetFirstBySectionAsync(ArticleSection.Arts))
+      mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
         .ReturnsAsync(new ArticleDto {
-            Title = testTitle,
-            Url = testUrl,
-            UpdatedDateTime = DateTime.Parse(testUpdatedDate, CultureInfo.InvariantCulture)
+            Title = "test-title",
+            Url = "test-url",
+            UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
         });
 
       var bootstrapper = new ConfigurableBootstrapper(with => {
@@ -148,32 +128,53 @@ namespace NancyApi.Test
       // Then
       var body = JsonConvert.DeserializeObject<ArticleTest>(result.Body.AsString());
 
-      Assert.Equal(testTitle, body.heading);
-      Assert.Equal(testUrl, body.link);
+      Assert.Equal("test-title", body.heading);
+      Assert.Equal("test-url", body.link);
       Assert.Equal("2019-05-24T18:24:16.0000000+03:00", body.updated);
+    }
+
+    [Fact]
+    public async Task ReturnsNotFoundIfFirstFilteredByExistingSectionArticleDoesNotExist()
+    {
+      // Given
+      var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
+      mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
+        .ReturnsAsync((ArticleDto)null);
+
+      var bootstrapper = new ConfigurableBootstrapper(with => {
+        with.Module<ArticlesModule>();
+        with.Dependency(mockArticleService.Object);
+      });
+
+      var browser = new Browser(bootstrapper);
+
+      // When
+      var result = await browser.Get($"/list/arts/first", with => {
+        with.HttpsRequest();
+      });
+
+      // Then
+      Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
     public async Task ShouldReturnJsonWhenFilteredByExistingSectionAndUpdatedDateRequested()
     {
       // Given
-      var testTitle = "test-title";
-      var testUrl = "test-url";
       var testUpdatedDate = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture);
-
       var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-      mockArticleService.Setup(g => g.GetBySectionAndUpdatedDateTimeAsync(ArticleSection.Arts, testUpdatedDate.Date))
+      mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts, testUpdatedDate.Date))
         .ReturnsAsync(new ArticleDto[] {
           new ArticleDto
           {
-            Title = testTitle,
-            Url = testUrl,
+            Title = "test-title",
+            Url = "test-url",
             UpdatedDateTime = testUpdatedDate
           },
           new ArticleDto
           {
-            Title = testTitle,
-            Url = testUrl,
+            Title = "test-title",
+            Url = "test-url",
             UpdatedDateTime = testUpdatedDate.AddHours(1)
           }
         });
@@ -193,8 +194,8 @@ namespace NancyApi.Test
       // Then
       var body = JsonConvert.DeserializeObject<ArticleTest[]>(result.Body.AsString());
 
-      Assert.Equal(testTitle, body[0].heading);
-      Assert.Equal(testUrl, body[0].link);
+      Assert.Equal("test-title", body[0].heading);
+      Assert.Equal("test-url", body[0].link);
       Assert.Equal("2019-05-24T18:24:16.0000000+03:00", body[0].updated);
     }
 
@@ -202,18 +203,13 @@ namespace NancyApi.Test
     public async Task ShouldReturnJsonWhenArticleByShortUrlRequested()
     {
       // Given
-      var testTitle = "test-title";
-      var testUrl = "test-url";
-      var testUpdatedDate = "5/24/2019 6:24:16 PM";
-      var testShortUrl = "test-short-url";
-
       var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-      mockArticleService.Setup(g => g.GetAsync(testShortUrl))
+      mockArticleService.Setup(g => g.GetArticleAsync("test-short-url"))
         .ReturnsAsync(new ArticleDto
         {
-          Title = testTitle,
-          Url = testUrl,
-          UpdatedDateTime = DateTime.Parse(testUpdatedDate, CultureInfo.InvariantCulture)
+          Title = "test-title",
+          Url = "test-url",
+          UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
         });
 
       var bootstrapper = new ConfigurableBootstrapper(with => {
@@ -224,36 +220,58 @@ namespace NancyApi.Test
       var browser = new Browser(bootstrapper);
 
       // When
-      var result = await browser.Get($"/article/{testShortUrl}", with => {
+      var result = await browser.Get($"/article/test-short-url", with => {
         with.HttpsRequest();
       });
 
       // Then
       var body = JsonConvert.DeserializeObject<ArticleTest>(result.Body.AsString());
 
-      Assert.Equal(testTitle, body.heading);
-      Assert.Equal(testUrl, body.link);
+      Assert.Equal("test-title", body.heading);
+      Assert.Equal("test-url", body.link);
       Assert.Equal("2019-05-24T18:24:16.0000000+03:00", body.updated);
+    }
+
+    [Fact]
+    public async Task ReturnsNotFoundIfArticleByShortUrlDoesNotExist()
+    {
+      // Given
+      var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
+      mockArticleService.Setup(g => g.GetArticleAsync("test-short-url"))
+        .ReturnsAsync((ArticleDto)null);
+
+      var bootstrapper = new ConfigurableBootstrapper(with => {
+        with.Module<ArticlesModule>();
+        with.Dependency(mockArticleService.Object);
+      });
+
+      var browser = new Browser(bootstrapper);
+
+      // When
+      var result = await browser.Get($"/article/test-short-url", with => {
+        with.HttpsRequest();
+      });
+
+      // Then
+      Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
     public async Task ShouldReturnJsonWhenFilteredByExistingSectionGroupsRequested()
     {
       // Given
-      var testTotal = 10;
       var testUpdatedDate = DateTime.Parse("5/24/2019", CultureInfo.InvariantCulture);
-
       var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-      mockArticleService.Setup(g => g.GetGroupsBySectionAsync(ArticleSection.Arts))
+      mockArticleService.Setup(g => g.GetGroupsAsync(Section.Arts))
         .ReturnsAsync(new ArticleGroupByDateDto[] {
           new ArticleGroupByDateDto
           {
-            Total = testTotal,
+            Total = 10,
             UpdatedDate = testUpdatedDate
           },
           new ArticleGroupByDateDto
           {
-            Total = testTotal + 1,
+            Total = 11,
             UpdatedDate = testUpdatedDate.AddDays(1)
           }
         });
@@ -274,9 +292,9 @@ namespace NancyApi.Test
       var body = JsonConvert.DeserializeObject<ArticleGroupTest[]>(result.Body.AsString());
 
       Assert.Equal("2019-05-24", body[0].date);
-      Assert.Equal(testTotal.ToString(), body[0].total);
+      Assert.Equal(10.ToString(), body[0].total);
       Assert.Equal("2019-05-25", body[1].date);
-      Assert.Equal((testTotal + 1).ToString(), body[1].total);
+      Assert.Equal(11.ToString(), body[1].total);
     }
   }
 

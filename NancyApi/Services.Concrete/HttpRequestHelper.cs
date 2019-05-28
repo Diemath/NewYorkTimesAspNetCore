@@ -9,23 +9,21 @@ using System.Web;
 
 namespace Services.Concrete
 {
-  public class HttpGetter : IHttpGetter
+  public class HttpRequestHelper : IHttpRequestHelper
   {
-    public async Task<string> GetAsync(string url, params KeyValuePair<string, string>[] parameters)
+    public async Task<string> GetAsync(string endpoint, params KeyValuePair<string, string>[] requestQuery)
     {
       string responseMessage;
-      var sb = new StringBuilder(url);
+      var sb = new StringBuilder(endpoint);
 
-      //linq
-      if (parameters.Any())
+      if (requestQuery.Any())
       {
         NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
 
-        foreach (KeyValuePair<string, string> keyValuePair in parameters)
+        foreach (KeyValuePair<string, string> keyValuePair in requestQuery)
           nameValueCollection[keyValuePair.Key] = keyValuePair.Value;
         
-        sb
-          .Append("?")
+        sb.Append("?")
           .Append(nameValueCollection.ToString());
       }
 

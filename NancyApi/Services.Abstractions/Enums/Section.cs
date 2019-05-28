@@ -1,6 +1,6 @@
 ﻿namespace Services.Abstractions.Enums
 {
-  public enum ArticleSection
+  public enum Section
   {
     Arts,
     Automobiles,

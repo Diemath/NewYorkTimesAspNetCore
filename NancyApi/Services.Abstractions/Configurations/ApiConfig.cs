@@ -1,8 +1,9 @@
 ﻿namespace Services.Abstractions.Configurations
 {
-  public class NyTimesApiConfig
+  public class ApiConfig
   {
     public string BaseUrl { get; set; }
     public string Id { get; set; }
+    public string ShortUrlTemplate { get; set; }
   }
 }
