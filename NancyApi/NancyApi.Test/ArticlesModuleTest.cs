@@ -20,11 +20,11 @@ namespace NancyApi.Test
   {
     [Theory]
     [InlineData("/")]
-    [InlineData("/list/art")]
-    [InlineData("/list/art/first")]
-    [InlineData("/list/art/2019-12-11")]
+    [InlineData("/list/arts")]
+    [InlineData("/list/arts/first")]
+    [InlineData("/list/arts/2019-12-11")]
     [InlineData("/article/short-url")]
-    [InlineData("/group/art")]
+    [InlineData("/group/arts")]
     public async Task ReturnsStatusOkWhenRouteExists(string route)
     {
       var configurableBootstrapper = new ConfigurableBootstrapper(with => {
