@@ -1,26 +1,28 @@
 ﻿using Mapster;
 using Newtonsoft.Json;
+using NYTimes.Services.Abstractions;
+using RestSharp;
 using Services.Abstractions;
 using Services.Abstractions.Configurations;
 using Services.Abstractions.Dto;
 using Services.Abstractions.Enums;
+using Services.Abstractions.Exceptions;
 using Services.Concrete.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Services.Abstractions.Exceptions;
 
 namespace Services.Concrete
 {
   public class ArticleService : IArticleService
   {
-    private readonly IHttpRequestHelper _httpGetter;
+    private readonly IRestClient _restClient;
     private readonly ApiConfig _apiConfig;
 
-    public ArticleService(IHttpRequestHelper httpGetter, IConfigProvider configProvider)
+    public ArticleService(IRestClientFactory restClientFactory, IConfigProvider configProvider)
     {
-      _httpGetter = httpGetter;
+      _restClient = restClientFactory.GetRestClient();
       _apiConfig = configProvider.Config.Api;
     }
 
@@ -74,11 +76,16 @@ namespace Services.Concrete
 
     private async Task<IEnumerable<ArticleJson>> FilterArticlesBySectionAsync(Section section)
     {
-      string responseMessage = await _httpGetter.GetAsync($"{_apiConfig.BaseUrl}{section.ToString().ToLower()}.json",
-        new KeyValuePair<string, string>("format", "json"),
-        new KeyValuePair<string, string>("api-key", _apiConfig.Id)
-      );
-      return JsonConvert.DeserializeObject<ArticlesJson>(responseMessage).Results;
+      _restClient.BaseUrl = new Uri(_apiConfig.BaseUrl);
+
+      var request = new RestRequest("svc/topstories/v2/{section}.json", Method.GET);
+
+      request.AddUrlSegment("section", section.ToString().ToLower());
+      request.AddParameter("api-key", _apiConfig.Id);
+      
+      var restResponse = await _restClient.ExecuteTaskAsync(request);
+      
+      return JsonConvert.DeserializeObject<ArticlesJson>(restResponse.Content).Results;
     }
 
     private void CheckExceptions(Section section)

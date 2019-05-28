@@ -2,6 +2,8 @@
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Newtonsoft.Json;
+using NYTimes.Services;
+using NYTimes.Services.Abstractions;
 using Services.Abstractions;
 using Services.Abstractions.Configurations;
 using Services.Concrete;
@@ -24,7 +26,7 @@ namespace NancyApi
 
     protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
     {
-      container.Register<IHttpRequestHelper, HttpRequestHelper>();
+      container.Register<IRestClientFactory, RestClientFactory>();
       container.Register<IArticleService, ArticleService>();
       container.Register<IConfigProvider>(new ConfigProvider(_appConfig));
     }
