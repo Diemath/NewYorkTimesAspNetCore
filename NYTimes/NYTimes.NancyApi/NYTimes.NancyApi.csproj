@@ -9,9 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Owin" Version="2.2.0" />
     <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Nancy.Bootstrappers.Autofac" Version="1.4.1" />
     <PackageReference Include="Nancy.Validation.FluentValidation" Version="2.0.0" />
   </ItemGroup>
 

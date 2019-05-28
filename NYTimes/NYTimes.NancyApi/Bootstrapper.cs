@@ -9,24 +9,24 @@ using System.IO;
 
 namespace NancyApi
 {
-  public class Bootstrapper : DefaultNancyBootstrapper
-  {
-    private readonly AppConfig _appConfig;
+  //public class Bootstrapper : DefaultNancyBootstrapper
+  //{
+  //  private readonly AppConfig _appConfig;
 
-    public Bootstrapper()
-    {
-    }
+  //  public Bootstrapper()
+  //  {
+  //  }
 
-    public Bootstrapper(AppConfig appConfig)
-    {
-      _appConfig = appConfig;
-    }
+  //  public Bootstrapper(AppConfig appConfig)
+  //  {
+  //    _appConfig = appConfig;
+  //  }
 
-    protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
-    {
-      container.Register<IHttpRequestHelper, HttpRequestHelper>();
-      container.Register<IArticleService, ArticleService>();
-      container.Register<IConfigProvider>(new ConfigProvider(_appConfig));
-    }
-  }
+  //  protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+  //  {
+  //    container.Register<IHttpRequestHelper, HttpRequestHelper>();
+  //    container.Register<IArticleService, ArticleService>();
+  //    container.Register<IConfigProvider>(new ConfigProvider(_appConfig));
+  //  }
+  //}
 }
