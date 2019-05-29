@@ -9,7 +9,7 @@ namespace NYTimes.NancyApi.Validators
     {
         public ArticlesBySectionAndDateQueryParamsValidator()
         {
-            RuleFor(x => x.UpdatedDate).MustBeValidDate();
+            RuleFor(x => x.UpdatedDate).MustBeValidDate("yyyy-MM-dd");
             RuleFor(x => x.Section).IsInEnum(typeof(Section));
         }
     }

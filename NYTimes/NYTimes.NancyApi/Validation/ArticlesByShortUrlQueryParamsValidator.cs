@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using NYTimes.NancyApi.Models;
-using NYTimes.NancyApi.Validators.Extensions;
 
 namespace NYTimes.NancyApi.Validation
 {
@@ -8,7 +7,7 @@ namespace NYTimes.NancyApi.Validation
     {
         public ArticlesByShortUrlQueryParamsValidator()
         {
-            RuleFor(x => x.ShortUrl).MustHaveExactLength();
+            RuleFor(x => x.ShortUrl).Length(7).WithMessage("Valid format for short url is XXXXXXX.");
         }
     }
 }
