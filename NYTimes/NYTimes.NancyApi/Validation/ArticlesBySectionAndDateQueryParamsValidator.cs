@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
 using NYTimes.NancyApi.Models;
 using NYTimes.NancyApi.Validators.Extensions;
+using NYTimes.Services.Abstractions.Enums;
 
 namespace NYTimes.NancyApi.Validators
 {
-  public class ArticlesBySectionAndDateQueryParamsValidator : AbstractValidator<ArticlesBySectionAndDateQueryParams>
-  {
-    public ArticlesBySectionAndDateQueryParamsValidator()
+    public class ArticlesBySectionAndDateQueryParamsValidator : AbstractValidator<ArticlesBySectionAndDateQueryParams>
     {
-      RuleFor(x => x.UpdatedDate).MustBeValidDate();
-      RuleFor(x => x.Section).MustBeFromSectionEnum();
+        public ArticlesBySectionAndDateQueryParamsValidator()
+        {
+            RuleFor(x => x.UpdatedDate).MustBeValidDate();
+            RuleFor(x => x.Section).IsInEnum(typeof(Section));
+        }
     }
-  }
 }

@@ -9,9 +9,7 @@ namespace NYTimes.NancyApi.Validation
     {
         public ArticlesBySectionQueryParamsValidator()
         {
-            RuleFor(x => x.Section).MustBeFromSectionEnum();
-
-            RuleFor(x => x.Section).IsInEnum(typeof(Section));//TODO: Consider this
+            RuleFor(x => x.Section).IsInEnum(typeof(Section));
         }
     }
 }
