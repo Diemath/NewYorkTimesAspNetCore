@@ -1,6 +1,6 @@
 ﻿namespace NYTimes.Services.Configurations
 {
-    public class ApiConfig
+    public class ApiOptions
     {
         public string BaseUrl { get; set; }
         public string Id { get; set; }

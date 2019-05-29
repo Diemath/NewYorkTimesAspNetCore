@@ -143,7 +143,6 @@ namespace NYTimes.NancyApi.NancyModules
             };
         }
 
-        private Section ParseSection(string section)
-         => (Section)Enum.Parse(typeof(Section), section, true);
+        private Section ParseSection(string section) => (Section)Enum.Parse(typeof(Section), section, true);
     }
 }

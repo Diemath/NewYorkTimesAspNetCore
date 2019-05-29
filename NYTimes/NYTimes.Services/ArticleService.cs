@@ -17,9 +17,9 @@ namespace NYTimes.Services
     public class ArticleService : IArticleService
     {
         private readonly IRestClient _restClient;
-        private readonly ApiConfig _apiConfig;
+        private readonly ApiOptions _apiConfig;
 
-        public ArticleService(IRestClientFactory restClientFactory, IOptions<ApiConfig> options)
+        public ArticleService(IRestClientFactory restClientFactory, IOptions<ApiOptions> options)
         {
             _restClient = restClientFactory.GetRestClient();
             _apiConfig = options.Value;
@@ -34,30 +34,33 @@ namespace NYTimes.Services
 
         public async Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section, DateTime updatedDate)
         {
-            var articles = (await GetArticlesBySectionAsync(section))
-              .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
-              .Adapt<IEnumerable<ArticleDto>>();
-            return articles;
+            var articles = await GetArticlesBySectionAsync(section);
+            var articleDtos = articles 
+                .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
+                .Adapt<IEnumerable<ArticleDto>>();
+            return articleDtos;
         }
 
         public async Task<ArticleDto> GetArticleAsync(string shortUrl)
         {
-            var article = (await GetArticlesBySectionAsync(Section.Home))
+            var articles = await GetArticlesBySectionAsync(Section.Home);
+            var articleDto = articles
               .FirstOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
               ?.Adapt<ArticleDto>();
-            return article;
+            return articleDto;
         }
 
         public async Task<IEnumerable<ArticleGroupByDateDto>> GetGroupsAsync(Section section)
         {
-            var groups = (await GetArticlesBySectionAsync(section))
+            var articles = await GetArticlesBySectionAsync(section);
+            var articleGroupDtos = articles
               .GroupBy(x => x.UpdatedDateTime.Date)
               .Select(x => new ArticleGroupByDateDto
               {
                   Total = x.Count(),
                   UpdatedDate = x.Key
               });
-            return groups;
+            return articleGroupDtos;
         }
 
         private async Task<IEnumerable<ArticleJson>> GetArticlesBySectionAsync(Section section)

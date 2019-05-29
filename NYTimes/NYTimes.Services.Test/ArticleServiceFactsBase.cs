@@ -8,7 +8,7 @@ namespace NYTimes.Services.Test
 {
     public class ArticleServiceFactsBase
     {
-        protected Mock<IOptions<ApiConfig>> _mockApiConfig = new Mock<IOptions<ApiConfig>>();
+        protected Mock<IOptions<ApiOptions>> _mockApiConfig = new Mock<IOptions<ApiOptions>>();
 
         protected Mock<IRestClientFactory> _mockRestClientFactory = new Mock<IRestClientFactory>();
         protected Mock<IRestClient> _mockRestClient = new Mock<IRestClient>();
@@ -17,7 +17,7 @@ namespace NYTimes.Services.Test
         public ArticleServiceFactsBase()
         {
             // Setup default mock configurations
-            _mockApiConfig.SetupGet(c => c.Value).Returns(new ApiConfig
+            _mockApiConfig.SetupGet(c => c.Value).Returns(new ApiOptions
             {
                 BaseUrl = "https://api.sometesturl.com/",
                 Id = "test-unique-identifier",

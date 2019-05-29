@@ -27,7 +27,7 @@ namespace NYTimes.NancyApi
         {
             services.AddTransient<IRestClientFactory, RestClientFactory>();
             services.AddTransient<IArticleService, ArticleService>();
-            services.Configure<ApiConfig>(Configuration.GetSection("Api"));
+            services.Configure<ApiOptions>(Configuration.GetSection("Api"));
 
             Services = services;
         }
