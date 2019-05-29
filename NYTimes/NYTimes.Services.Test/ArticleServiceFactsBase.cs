@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Moq;
 using NYTimes.Services.Abstractions;
 using RestSharp;
@@ -8,7 +9,7 @@ namespace Services.Test
 {
   public class ArticleServiceFactsBase
   {
-    protected Mock<IConfigProvider> _mockConfigProvider = new Mock<IConfigProvider>();
+    protected Mock<IOptions<ApiConfig>> _mockApiConfig = new Mock<IOptions<ApiConfig>>();
 
     protected Mock<IRestClientFactory> _mockRestClientFactory = new Mock<IRestClientFactory>();
     protected Mock<IRestClient> _mockRestClient = new Mock<IRestClient>();
@@ -17,15 +18,13 @@ namespace Services.Test
     public ArticleServiceFactsBase()
     {
       // Setup default mock configurations
-      _mockConfigProvider.SetupGet(c => c.Config).Returns(new AppConfig
+      _mockApiConfig.SetupGet(c => c.Value).Returns(new ApiConfig
       {
-        Api = new ApiConfig
-        {
-          BaseUrl = "https://api.sometesturl.com/",
-          Id = "test-unique-identifier",
-          ShortUrlTemplate = "https://nyti.ms/{ShortUrlId}"
-        }
-      });
+        BaseUrl = "https://api.sometesturl.com/",
+        Id = "test-unique-identifier",
+        ShortUrlTemplate = "https://nyti.ms/{ShortUrlId}"
+      }
+      );
 
       SetupRestSharp();
     }

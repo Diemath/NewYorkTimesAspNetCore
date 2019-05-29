@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Owin;
 using NYTimes.NancyApi.NancyModules;
+using NYTimes.Services;
+using NYTimes.Services.Abstractions;
 using Services.Abstractions;
 using Services.Abstractions.Configurations;
 using Services.Concrete;
@@ -23,13 +25,9 @@ namespace NancyApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IHttpRequestHelper, HttpRequestHelper>();
+            services.AddTransient<IRestClientFactory, RestClientFactory>();
             services.AddTransient<IArticleService, ArticleService>();
-            services.Configure<AppConfig>(Configuration.GetSection("Api"));
-
-            var appConfig = new AppConfig();
-            ConfigurationBinder.Bind(Configuration, appConfig);
-            services.AddTransient<IConfigProvider>(s => new ConfigProvider(appConfig));
+            services.Configure<ApiConfig>(Configuration.GetSection("Api"));
 
             Services = services;
         }

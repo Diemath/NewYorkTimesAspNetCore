@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NYTimes.Services.Abstractions;
 using RestSharp;
@@ -20,58 +21,63 @@ namespace Services.Concrete
     private readonly IRestClient _restClient;
     private readonly ApiConfig _apiConfig;
 
-    public ArticleService(IRestClientFactory restClientFactory, IConfigProvider configProvider)
+    public ArticleService(IRestClientFactory restClientFactory, IOptions<ApiConfig> options)
     {
       _restClient = restClientFactory.GetRestClient();
-      _apiConfig = configProvider.Config.Api;
+      _apiConfig = options.Value;
     }
 
     public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section)
     {
       CheckExceptions(section);
 
-      return (await FilterArticlesBySectionAsync(section))
+      var result = (await FilterArticlesBySectionAsync(section))
         .Adapt<IEnumerable<ArticleDto>>();
+      return result;
     }
 
     public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section, DateTime updatedDate)
     {
       CheckExceptions(section);
 
-      return (await FilterArticlesBySectionAsync(section))
+      var result = (await FilterArticlesBySectionAsync(section))
         .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
         .Adapt<IEnumerable<ArticleDto>>();
+      return result;
     }
 
     public async Task<ArticleDto> GetArticleAsync(string shortUrl)
     {
       CheckExceptions(shortUrl);
 
-      return (await FilterArticlesBySectionAsync(Section.Home))
+      var result = (await FilterArticlesBySectionAsync(Section.Home))
         .FirstOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
         ?.Adapt<ArticleDto>();
+      return result;
     }
 
     public async Task<ArticleDto> GetArticleAsync(Section section)
     {
       CheckExceptions(section);
 
-      return (await FilterArticlesBySectionAsync(section))
+      var result = (await FilterArticlesBySectionAsync(section))
         .FirstOrDefault()
         ?.Adapt<ArticleDto>();
+      return result;
     }
 
     public async Task<IEnumerable<ArticleGroupByDateDto>> GetGroupsAsync(Section section)
     {
       CheckExceptions(section);
 
-      return (await FilterArticlesBySectionAsync(section))
+      var result = (await FilterArticlesBySectionAsync(section))
         .GroupBy(x => x.UpdatedDateTime.Date)
         .Select(x => new ArticleGroupByDateDto
         {
           Total = x.Count(),
           UpdatedDate = x.Key
         });
+      return result;
     }
 
     private async Task<IEnumerable<ArticleJson>> FilterArticlesBySectionAsync(Section section)
