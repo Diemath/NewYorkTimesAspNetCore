@@ -1,18 +1,14 @@
 using Moq;
-using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Enums;
+using NYTimes.Services.Abstractions.Exceptions;
+using NYTimes.Services;
 using RestSharp;
-using Services.Abstractions;
-using Services.Abstractions.Configurations;
-using Services.Abstractions.Enums;
-using Services.Abstractions.Exceptions;
-using Services.Concrete;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Services.Test
+namespace NYTimes.Services.Test
 {
   public class ArticleServiceTest
   {

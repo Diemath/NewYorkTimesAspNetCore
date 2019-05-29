@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
-using NancyApi.Models;
-using NancyApi.Validators.Extensions;
-using Services.Abstractions.Enums;
+using NYTimes.NancyApi.Models;
+using NYTimes.NancyApi.Validators.Extensions;
 
-namespace NancyApi.Validators
+namespace NYTimes.NancyApi.Validators
 {
   public class ArticlesBySectionAndDateQueryParamsValidator : AbstractValidator<ArticlesBySectionAndDateQueryParams>
   {

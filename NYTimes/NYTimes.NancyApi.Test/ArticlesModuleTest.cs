@@ -1,19 +1,17 @@
 using Moq;
 using Nancy;
 using Nancy.Testing;
-using Nancy.Validation;
-using NancyApi.NancyModules;
-using NancyApi.Validators;
 using Newtonsoft.Json;
-using Services.Abstractions;
-using Services.Abstractions.Dto;
-using Services.Abstractions.Enums;
+using NYTimes.NancyApi.NancyModules;
+using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Dto;
+using NYTimes.Services.Abstractions.Enums;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NancyApi.Test
+namespace NYTimes.NancyApi.Test
 {
   // IArticlesService should be mock
   public class ArticlesModuleTest : ArticlesModuleTestBase

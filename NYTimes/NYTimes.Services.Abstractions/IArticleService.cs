@@ -1,11 +1,10 @@
-﻿using Services.Abstractions.Dto;
-using Services.Abstractions.Enums;
+﻿using NYTimes.Services.Abstractions.Dto;
+using NYTimes.Services.Abstractions.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Services.Abstractions.Exceptions;
 
-namespace Services.Abstractions
+namespace NYTimes.Services.Abstractions
 {
   public interface IArticleService
   {

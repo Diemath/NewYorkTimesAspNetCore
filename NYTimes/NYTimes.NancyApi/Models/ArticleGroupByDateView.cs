@@ -1,4 +1,4 @@
-﻿namespace NancyApi.Models
+﻿namespace NYTimes.NancyApi.Models
 {
   public class ArticleGroupByDateView
   {

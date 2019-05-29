@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using NancyApi.Models;
-using NancyApi.Validators.Extensions;
+using NYTimes.NancyApi.Models;
+using NYTimes.NancyApi.Validators.Extensions;
 
 namespace NYTimes.NancyApi.Validation
 {

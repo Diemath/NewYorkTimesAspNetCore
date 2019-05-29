@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using Services.Abstractions.Enums;
+using NYTimes.Services.Abstractions.Enums;
 using System;
 using System.Globalization;
 using System.Linq;
 
-namespace NancyApi.Validators.Extensions
+namespace NYTimes.NancyApi.Validators.Extensions
 {
   public static class ValidationExtensions
   {

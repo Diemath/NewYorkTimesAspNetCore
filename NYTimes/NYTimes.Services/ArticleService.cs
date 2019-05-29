@@ -2,19 +2,18 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Configurations;
+using NYTimes.Services.Abstractions.Dto;
+using NYTimes.Services.Abstractions.Enums;
+using NYTimes.Services.Abstractions.Exceptions;
+using NYTimes.Services.Json;
 using RestSharp;
-using Services.Abstractions;
-using Services.Abstractions.Configurations;
-using Services.Abstractions.Dto;
-using Services.Abstractions.Enums;
-using Services.Abstractions.Exceptions;
-using Services.Concrete.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.Concrete
+namespace NYTimes.Services
 {
   public class ArticleService : IArticleService
   {

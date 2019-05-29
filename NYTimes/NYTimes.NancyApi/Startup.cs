@@ -6,13 +6,11 @@ using Nancy.Owin;
 using NYTimes.NancyApi.NancyModules;
 using NYTimes.Services;
 using NYTimes.Services.Abstractions;
-using Services.Abstractions;
-using Services.Abstractions.Configurations;
-using Services.Concrete;
+using NYTimes.Services.Abstractions.Configurations;
 
-namespace NancyApi
+namespace NYTimes.NancyApi
 {
-    public class Startup
+  public class Startup
     {
         public IServiceCollection Services { get; private set; }
 

@@ -1,11 +1,10 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Configurations;
 using RestSharp;
-using Services.Abstractions;
-using Services.Abstractions.Configurations;
 
-namespace Services.Test
+namespace NYTimes.Services.Test
 {
   public class ArticleServiceFactsBase
   {

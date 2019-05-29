@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Services.Concrete.Json
+namespace NYTimes.Services.Json
 {
   public class ArticlesJson
   {

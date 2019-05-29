@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Services.Concrete.Json
+namespace NYTimes.Services.Json
 {
   public class ArticleJson
   {

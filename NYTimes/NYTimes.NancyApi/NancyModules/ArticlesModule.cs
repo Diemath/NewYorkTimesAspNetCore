@@ -1,19 +1,18 @@
 ﻿using Nancy;
 using Nancy.Configuration;
 using Nancy.ModelBinding;
-using Nancy.Responses.Negotiation;
 using Nancy.Validation;
-using NancyApi.Models;
-using Services.Abstractions;
-using Services.Abstractions.Dto;
-using Services.Abstractions.Enums;
+using NYTimes.NancyApi.Models;
+using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Dto;
+using NYTimes.Services.Abstractions.Enums;
 using System;
 using System.Globalization;
 using System.Linq;
 
-namespace NancyApi.NancyModules
+namespace NYTimes.NancyApi.NancyModules
 {
-    public class ArticlesModule : NancyModule
+  public class ArticlesModule : NancyModule
     {
         private readonly IArticleService _articleService;
 

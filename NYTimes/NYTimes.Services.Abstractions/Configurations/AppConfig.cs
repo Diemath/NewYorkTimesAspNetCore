@@ -1,4 +1,4 @@
-﻿namespace Services.Abstractions.Configurations
+﻿namespace NYTimes.Services.Abstractions.Configurations
 {
   public class AppConfig
   {

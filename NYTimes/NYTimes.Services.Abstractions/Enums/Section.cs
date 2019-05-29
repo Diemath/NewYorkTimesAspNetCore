@@ -1,4 +1,4 @@
-﻿namespace Services.Abstractions.Enums
+﻿namespace NYTimes.Services.Abstractions.Enums
 {
   public enum Section
   {

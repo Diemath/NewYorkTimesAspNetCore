@@ -1,9 +1,9 @@
 using Moq;
-using Services.Abstractions;
-using Services.Abstractions.Dto;
-using Services.Abstractions.Enums;
+using NYTimes.Services.Abstractions;
+using NYTimes.Services.Abstractions.Dto;
+using NYTimes.Services.Abstractions.Enums;
 
-namespace NancyApi.Test
+namespace NYTimes.NancyApi.Test
 {
   public class ArticlesModuleTestBase
   {

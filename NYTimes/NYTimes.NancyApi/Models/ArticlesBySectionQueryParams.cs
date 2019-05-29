@@ -1,6 +1,4 @@
-﻿using Services.Abstractions.Enums;
-
-namespace NancyApi.Models
+﻿namespace NYTimes.NancyApi.Models
 {
   public class ArticlesBySectionQueryParams
   {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Abstractions.Exceptions
+namespace NYTimes.Services.Abstractions.Exceptions
 {
   public class UndefinedEnumException : Exception
   {

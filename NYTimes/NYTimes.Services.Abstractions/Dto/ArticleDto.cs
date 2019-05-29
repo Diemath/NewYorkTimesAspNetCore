@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Abstractions.Dto
+namespace NYTimes.Services.Abstractions.Dto
 {
   public class ArticleDto
   {
