@@ -19,14 +19,14 @@ namespace NYTimes.Services.Abstractions
         /// </summary>
         /// <param name="section"></param>
         /// <returns></returns>
-        Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section);
+        Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section);
         /// <summary>
         /// Filters by article section and updated date.
         /// </summary>
         /// <param name="section"></param>
         /// <param name="updatedDateTime"></param>
         /// <returns></returns>
-        Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section, DateTime updatedDateTime);
+        Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section, DateTime updatedDateTime);
         /// <summary>
         /// Groups articles by updated dates. Filters by article section.
         /// </summary>

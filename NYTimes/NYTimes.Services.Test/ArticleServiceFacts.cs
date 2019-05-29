@@ -1,7 +1,5 @@
 using Moq;
 using NYTimes.Services.Abstractions.Enums;
-using NYTimes.Services.Abstractions.Exceptions;
-using NYTimes.Services;
 using RestSharp;
 using System;
 using System.Linq;
@@ -19,7 +17,7 @@ namespace NYTimes.Services.Test
             {
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                await target.FilterArticlesAsync(Section.Arts, DateTime.Now);
+                await target.GetArticlesAsync(Section.Arts, DateTime.Now);
 
                 // Assert
                 _mockRestClient.VerifySet(f => f.BaseUrl = It.Is<Uri>(u => u.ToString() == "https://api.sometesturl.com/"), Times.Once);
@@ -50,7 +48,7 @@ namespace NYTimes.Services.Test
 
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                var result = await target.FilterArticlesAsync(Section.Arts, DateTime.Parse("5/24/2019"));
+                var result = await target.GetArticlesAsync(Section.Arts, DateTime.Parse("5/24/2019"));
                 var firstArticle = result.First();
 
                 // Assert
@@ -83,7 +81,7 @@ namespace NYTimes.Services.Test
 
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                var result = await target.FilterArticlesAsync(Section.Arts, DateTime.Parse("5/24/2019"));
+                var result = await target.GetArticlesAsync(Section.Arts, DateTime.Parse("5/24/2019"));
 
                 // Assert
                 Assert.Equal("test-title", result.Single().Title);
@@ -97,7 +95,7 @@ namespace NYTimes.Services.Test
             {
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                await target.FilterArticlesAsync(Section.Arts);
+                await target.GetArticlesAsync(Section.Arts);
 
                 // Assert
                 _mockRestClient.VerifySet(f => f.BaseUrl = It.Is<Uri>(u => u.ToString() == "https://api.sometesturl.com/"), Times.Once);
@@ -128,7 +126,7 @@ namespace NYTimes.Services.Test
 
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                var result = await target.FilterArticlesAsync(Section.Arts);
+                var result = await target.GetArticlesAsync(Section.Arts);
                 var firstArticle = result.First();
 
                 // Assert
@@ -145,7 +143,7 @@ namespace NYTimes.Services.Test
             {
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                await target.FilterArticlesAsync(Section.Home);
+                await target.GetArticlesAsync(Section.Home);
 
                 // Assert
                 _mockRestClient.VerifySet(f => f.BaseUrl = It.Is<Uri>(u => u.ToString() == "https://api.sometesturl.com/"), Times.Once);

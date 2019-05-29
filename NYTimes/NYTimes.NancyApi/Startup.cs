@@ -6,7 +6,7 @@ using Nancy.Owin;
 using NYTimes.NancyApi.NancyModules;
 using NYTimes.Services;
 using NYTimes.Services.Abstractions;
-using NYTimes.Services.Abstractions.Configurations;
+using NYTimes.Services.Configurations;
 using Serilog;
 
 namespace NYTimes.NancyApi

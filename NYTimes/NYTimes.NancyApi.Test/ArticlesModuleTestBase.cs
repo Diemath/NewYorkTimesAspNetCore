@@ -14,7 +14,7 @@ namespace NYTimes.NancyApi.Test
             // Setup default article service behavior
             _mockArticleService.Setup(s => s.GetArticleAsync(It.IsAny<string>()))
               .ReturnsAsync(new ArticleDto { });
-            _mockArticleService.Setup(s => s.FilterArticlesAsync(It.IsAny<Section>()))
+            _mockArticleService.Setup(s => s.GetArticlesAsync(It.IsAny<Section>()))
               .ReturnsAsync(new ArticleDto[] { new ArticleDto() });
         }
     }

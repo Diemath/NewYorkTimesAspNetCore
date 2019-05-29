@@ -48,7 +48,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>();
-            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+            mockArticleService.Setup(g => g.GetArticlesAsync(Section.Arts))
               .ReturnsAsync(new ArticleDto[] { });
 
             var configurableBootstrapper = new ConfigurableBootstrapper(with =>
@@ -74,7 +74,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>();
-            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+            mockArticleService.Setup(g => g.GetArticlesAsync(Section.Arts))
               .ReturnsAsync(new ArticleDto[] {
                   new ArticleDto
                   {
@@ -110,7 +110,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+            mockArticleService.Setup(g => g.GetArticlesAsync(Section.Arts))
                 .ReturnsAsync(new ArticleDto[]
                 {
                     new ArticleDto
@@ -154,7 +154,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+            mockArticleService.Setup(g => g.GetArticlesAsync(Section.Arts))
               .ReturnsAsync(new ArticleDto[] { });
 
             var bootstrapper = new ConfigurableBootstrapper(with =>
@@ -181,7 +181,7 @@ namespace NYTimes.NancyApi.Test
             // Given
             var testUpdatedDate = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture);
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts, testUpdatedDate.Date))
+            mockArticleService.Setup(g => g.GetArticlesAsync(Section.Arts, testUpdatedDate.Date))
               .ReturnsAsync(new ArticleDto[] {
                   new ArticleDto
                   {

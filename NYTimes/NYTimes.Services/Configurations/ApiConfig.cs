@@ -1,4 +1,4 @@
-﻿namespace NYTimes.Services.Abstractions.Configurations
+﻿namespace NYTimes.Services.Configurations
 {
     public class ApiConfig
     {

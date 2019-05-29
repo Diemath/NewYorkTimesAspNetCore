@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace NYTimes.NancyApi.NancyModules
 {
-    public class ArticlesModule : NancyModule
+    public class ArticlesModule : NancyModuleBase
     {
         private readonly IArticleService _articleService;
 
@@ -37,7 +37,7 @@ namespace NYTimes.NancyApi.NancyModules
                     return GetErrorResult(this, validationResult);
                 }
 
-                var dtos = await _articleService.FilterArticlesAsync(
+                var dtos = await _articleService.GetArticlesAsync(
                     ParseSection(@params.Section)
                 );
 
@@ -54,9 +54,10 @@ namespace NYTimes.NancyApi.NancyModules
                     return GetErrorResult(this, validationResult);
                 }
 
-                var dto = (await _articleService.FilterArticlesAsync(
+                var dtos = await _articleService.GetArticlesAsync(
                     ParseSection(@params.Section)
-                )).FirstOrDefault();
+                );
+                var dto = dtos.FirstOrDefault();
 
                 if (dto is null)
                 {
@@ -76,9 +77,9 @@ namespace NYTimes.NancyApi.NancyModules
                     return GetErrorResult(this, validationResult);
                 }
 
-                var dtos = await _articleService.FilterArticlesAsync(
+                var dtos = await _articleService.GetArticlesAsync(
                     ParseSection(@params.Section),
-                    ParseDate(@params.UpdatedDate)
+                    DateTime.ParseExact(@params.UpdatedDate, _validDateFormat, CultureInfo.InvariantCulture)
                 );
 
                 return Response.AsJson(dtos.Select(MapToVm));
@@ -119,7 +120,6 @@ namespace NYTimes.NancyApi.NancyModules
                 var dtos = await _articleService.GetGroupsAsync(
                     ParseSection(@params.Section)
                 );
-
                 return Response.AsJson(dtos.Select(MapToVm));
             });
         }
@@ -143,16 +143,7 @@ namespace NYTimes.NancyApi.NancyModules
             };
         }
 
-        private Response GetErrorResult(ArticlesModule articlesModule, ModelValidationResult modelValidationResult)
-          => articlesModule.Response.AsJson(modelValidationResult, HttpStatusCode.BadRequest);
-
-        private Response GetNotFoundResult(ArticlesModule articlesModule)
-          => articlesModule.Response.AsJson(new { status = nameof(HttpStatusCode.NotFound) }, HttpStatusCode.NotFound);
-
         private Section ParseSection(string section)
-          => (Section)Enum.Parse(typeof(Section), section, true);
-
-        private DateTime ParseDate(string date)
-          => DateTime.ParseExact(date, _validDateFormat, CultureInfo.InvariantCulture);
+         => (Section)Enum.Parse(typeof(Section), section, true);
     }
 }

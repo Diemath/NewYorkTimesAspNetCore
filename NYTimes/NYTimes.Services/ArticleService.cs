@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NYTimes.Services.Abstractions;
-using NYTimes.Services.Abstractions.Configurations;
 using NYTimes.Services.Abstractions.Dto;
 using NYTimes.Services.Abstractions.Enums;
+using NYTimes.Services.Configurations;
 using NYTimes.Services.Json;
 using RestSharp;
 using System;
@@ -25,16 +25,16 @@ namespace NYTimes.Services
             _apiConfig = options.Value;
         }
 
-        public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section)
+        public async Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section)
         {
-            var articles = (await FilterArticlesBySectionAsync(section))
+            var articles = (await GetArticlesBySectionAsync(section))
               .Adapt<IEnumerable<ArticleDto>>();
             return articles;
         }
 
-        public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section, DateTime updatedDate)
+        public async Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section, DateTime updatedDate)
         {
-            var articles = (await FilterArticlesBySectionAsync(section))
+            var articles = (await GetArticlesBySectionAsync(section))
               .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
               .Adapt<IEnumerable<ArticleDto>>();
             return articles;
@@ -42,7 +42,7 @@ namespace NYTimes.Services
 
         public async Task<ArticleDto> GetArticleAsync(string shortUrl)
         {
-            var article = (await FilterArticlesBySectionAsync(Section.Home))
+            var article = (await GetArticlesBySectionAsync(Section.Home))
               .FirstOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
               ?.Adapt<ArticleDto>();
             return article;
@@ -50,7 +50,7 @@ namespace NYTimes.Services
 
         public async Task<IEnumerable<ArticleGroupByDateDto>> GetGroupsAsync(Section section)
         {
-            var groups = (await FilterArticlesBySectionAsync(section))
+            var groups = (await GetArticlesBySectionAsync(section))
               .GroupBy(x => x.UpdatedDateTime.Date)
               .Select(x => new ArticleGroupByDateDto
               {
@@ -60,7 +60,7 @@ namespace NYTimes.Services
             return groups;
         }
 
-        private async Task<IEnumerable<ArticleJson>> FilterArticlesBySectionAsync(Section section)
+        private async Task<IEnumerable<ArticleJson>> GetArticlesBySectionAsync(Section section)
         {
             _restClient.BaseUrl = new Uri(_apiConfig.BaseUrl);
 

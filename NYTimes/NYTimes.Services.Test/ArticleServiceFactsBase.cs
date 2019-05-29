@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using NYTimes.Services.Abstractions;
-using NYTimes.Services.Abstractions.Configurations;
+using NYTimes.Services.Configurations;
 using RestSharp;
 
 namespace NYTimes.Services.Test
