@@ -3,7 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Configuration;
-using System;
 
 namespace NYTimes.NancyApi.NancyModules
 {
@@ -16,7 +15,7 @@ namespace NYTimes.NancyApi.NancyModules
             _services = services;
         }
 
-        public override INancyEnvironment GetEnvironment() 
+        public override INancyEnvironment GetEnvironment()
             => ApplicationContainer.Resolve<INancyEnvironment>();
 
         protected override void ConfigureApplicationContainer(ILifetimeScope container)
@@ -29,7 +28,7 @@ namespace NYTimes.NancyApi.NancyModules
             });
         }
 
-        protected override INancyEnvironmentConfigurator GetEnvironmentConfigurator() 
+        protected override INancyEnvironmentConfigurator GetEnvironmentConfigurator()
             => ApplicationContainer.Resolve<INancyEnvironmentConfigurator>();
 
         protected override void RegisterNancyEnvironment(ILifetimeScope container, INancyEnvironment environment)

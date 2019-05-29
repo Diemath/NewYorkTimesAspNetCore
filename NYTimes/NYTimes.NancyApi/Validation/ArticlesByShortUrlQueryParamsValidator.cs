@@ -4,11 +4,11 @@ using NYTimes.NancyApi.Validators.Extensions;
 
 namespace NYTimes.NancyApi.Validation
 {
-  public class ArticlesByShortUrlQueryParamsValidator : AbstractValidator<ArticlesByShortUrlQueryParams>
-  {
-    public ArticlesByShortUrlQueryParamsValidator()
+    public class ArticlesByShortUrlQueryParamsValidator : AbstractValidator<ArticlesByShortUrlQueryParams>
     {
-      RuleFor(x => x.ShortUrl).MustHaveExactLength();
+        public ArticlesByShortUrlQueryParamsValidator()
+        {
+            RuleFor(x => x.ShortUrl).MustHaveExactLength();
+        }
     }
-  }
 }

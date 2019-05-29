@@ -2,10 +2,10 @@
 
 namespace NYTimes.Services.Abstractions.Exceptions
 {
-  public class UnvalidShortUrlException : Exception
-  {
-    public UnvalidShortUrlException(string message) : base(message)
+    public class UnvalidShortUrlException : Exception
     {
+        public UnvalidShortUrlException(string message) : base(message)
+        {
+        }
     }
-  }
 }

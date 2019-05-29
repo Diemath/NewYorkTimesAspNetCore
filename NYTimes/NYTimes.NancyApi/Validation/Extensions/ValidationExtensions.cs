@@ -18,7 +18,7 @@ namespace NYTimes.NancyApi.Validators.Extensions
                        .WithMessage("'{PropertyName}' must be one of: '" + string.Join(", ", validElements) + "'.")
                        .OverridePropertyName(overrideProertyName ?? enumType.Name);
         }
-        
+
         public static IRuleBuilderOptions<T, string> MustHaveExactLength<T>(this IRuleBuilder<T, string> ruleBuilder)
           => ruleBuilder.Length(7).WithMessage("Valid format for short url is XXXXXXX.");
 

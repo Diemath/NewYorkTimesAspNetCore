@@ -2,8 +2,8 @@
 
 namespace NYTimes.Services.Json
 {
-  public class ArticlesJson
-  {
-    public IEnumerable<ArticleJson> Results { get; set; }
-  }
+    public class ArticlesJson
+    {
+        public IEnumerable<ArticleJson> Results { get; set; }
+    }
 }

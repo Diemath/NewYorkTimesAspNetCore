@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace NYTimes.NancyApi.NancyModules
 {
-  public class ArticlesModule : NancyModule
+    public class ArticlesModule : NancyModule
     {
         private readonly IArticleService _articleService;
 
@@ -38,8 +38,8 @@ namespace NYTimes.NancyApi.NancyModules
                 }
 
                 var dtos = await _articleService.FilterArticlesAsync(
-            ParseSection(@params.Section)
-          );
+                    ParseSection(@params.Section)
+                );
 
                 return Response.AsJson(dtos.Select(MapToVm));
             });
@@ -55,8 +55,8 @@ namespace NYTimes.NancyApi.NancyModules
                 }
 
                 var dto = await _articleService.GetArticleAsync(
-            ParseSection(@params.Section)
-          );
+                    ParseSection(@params.Section)
+                );
 
                 if (dto is null)
                 {
@@ -77,9 +77,9 @@ namespace NYTimes.NancyApi.NancyModules
                 }
 
                 var dtos = await _articleService.FilterArticlesAsync(
-            ParseSection(@params.Section),
-            ParseDate(@params.UpdatedDate)
-          );
+                    ParseSection(@params.Section),
+                    ParseDate(@params.UpdatedDate)
+                );
 
                 return Response.AsJson(dtos.Select(MapToVm));
             });
@@ -95,8 +95,8 @@ namespace NYTimes.NancyApi.NancyModules
                 }
 
                 var dto = await _articleService.GetArticleAsync(
-            @params.ShortUrl
-          );
+                    @params.ShortUrl
+                );
 
                 if (dto is null)
                 {
@@ -117,8 +117,8 @@ namespace NYTimes.NancyApi.NancyModules
                 }
 
                 var dtos = await _articleService.GetGroupsAsync(
-            ParseSection(@params.Section)
-          );
+                    ParseSection(@params.Section)
+                );
 
                 return Response.AsJson(dtos.Select(MapToVm));
             });
