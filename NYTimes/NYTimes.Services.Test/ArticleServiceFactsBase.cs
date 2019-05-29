@@ -32,6 +32,7 @@ namespace NYTimes.Services.Test
         {
             _mockRestClientFactory.Setup(f => f.GetRestClient()).Returns(_mockRestClient.Object);
             _mockRestClient.Setup(c => c.ExecuteTaskAsync(It.IsAny<IRestRequest>())).ReturnsAsync(_mockRestResponse.Object);
+            _mockRestResponse.SetupGet(r => r.IsSuccessful).Returns(true);
             _mockRestResponse.SetupGet(r => r.Content).Returns("{results:[]}");
         }
     }

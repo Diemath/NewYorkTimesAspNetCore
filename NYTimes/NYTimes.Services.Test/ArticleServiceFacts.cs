@@ -8,7 +8,7 @@ using Xunit;
 
 namespace NYTimes.Services.Test
 {
-    public class ArticleServiceTest
+    public class ArticleServiceTest : ArticleServiceFactsBase
     {
         public class GetArticlesBySectionAndCreatedDateMethod : ArticleServiceFactsBase
         {
@@ -184,7 +184,33 @@ namespace NYTimes.Services.Test
             }
 
             [Fact]
-            public async Task TakesFirstFoundArticle()
+            public async Task TakesSingleFoundArticle()
+            {
+                // Arrange
+                _mockRestResponse.SetupGet(r => r.Content)
+                  .Returns(@"
+                    {
+                      results: [
+                        {
+                          title: 'test-title',
+                          url: 'test-url',
+                          updated_date: '5/24/2019 6:24:16 PM',
+                          short_url: 'https://nyti.ms/2YNxSD2'
+                        }
+                      ]
+                    }
+                  ");
+
+                // Act
+                var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
+                var result = await target.GetArticleAsync("2YNxSD2");
+
+                // Assert
+                Assert.Equal("test-title", result.Title);
+            }
+
+            [Fact]
+            public async Task ThrowsExceptionIfArticleNotSingle()
             {
                 // Arrange
                 _mockRestResponse.SetupGet(r => r.Content)
@@ -198,16 +224,10 @@ namespace NYTimes.Services.Test
                           short_url: 'https://nyti.ms/2YNxSD2'
                         },
                         {
-                          title: 'another-title',
-                          url: 'another-url',
-                          updated_date: '6/24/2019 6:24:16 PM',
+                          title: 'test-title',
+                          url: 'test-url',
+                          updated_date: '5/24/2019 6:24:16 PM',
                           short_url: 'https://nyti.ms/2YNxSD2'
-                        },
-                        {
-                          title: 'another-title',
-                          url: 'another-url',
-                          updated_date: '7/24/2019 6:24:16 PM',
-                          short_url: 'https://nyti.ms/XXXXXXX'
                         }
                       ]
                     }
@@ -215,10 +235,7 @@ namespace NYTimes.Services.Test
 
                 // Act
                 var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
-                var result = await target.GetArticleAsync("2YNxSD2");
-
-                // Assert
-                Assert.Equal("test-title", result.Title);
+                await Assert.ThrowsAsync<InvalidOperationException>(() => target.GetArticleAsync("2YNxSD2"));
             }
 
             [Fact]
@@ -328,6 +345,34 @@ namespace NYTimes.Services.Test
                 Assert.Equal(1, group.Total);
                 Assert.Equal(DateTime.Parse("6/24/2019"), group.UpdatedDate);
             }
+        }
+
+        [Fact]
+        public async Task ThrowsExceptionIfResponseNotSuccessful()
+        {
+            // Arrange
+            _mockRestResponse.SetupGet(r => r.IsSuccessful).Returns(false);
+            _mockRestResponse.SetupGet(r => r.ErrorMessage).Returns("test-error-message");
+            _mockRestResponse.SetupGet(r => r.Content)
+              .Returns(@"
+                    {
+                      results: []
+                    }
+                  ");
+
+            // Act
+            var target = new ArticleService(_mockRestClientFactory.Object, _mockApiConfig.Object);
+
+            async Task assert(Func<Task> act)
+            {
+                var exception = await Assert.ThrowsAsync<Exception>(act);
+                Assert.Equal("test-error-message", exception.Message);
+            }
+
+            await assert(() => target.GetArticleAsync("2YNxSD2"));
+            await assert(() => target.GetArticlesAsync(Section.Arts));
+            await assert(() => target.GetArticlesAsync(Section.Arts, DateTime.Now));
+            await assert(() => target.GetGroupsAsync(Section.Arts));
         }
     }
 }
