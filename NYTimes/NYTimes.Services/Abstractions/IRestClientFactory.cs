@@ -5,8 +5,8 @@ using System.Text;
 
 namespace NYTimes.Services.Abstractions
 {
-  public interface IRestClientFactory
-  {
-    IRestClient GetRestClient();
-  }
+    public interface IRestClientFactory
+    {
+        IRestClient GetRestClient();
+    }
 }

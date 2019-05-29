@@ -7,19 +7,21 @@ using NYTimes.NancyApi.NancyModules;
 using NYTimes.Services;
 using NYTimes.Services.Abstractions;
 using NYTimes.Services.Abstractions.Configurations;
+using Serilog;
 
 namespace NYTimes.NancyApi
 {
   public class Startup
     {
-        public IServiceCollection Services { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
+        public IServiceCollection Services { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,9 +34,6 @@ namespace NYTimes.NancyApi
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var appConfig = new AppConfig();
-            ConfigurationBinder.Bind(Configuration, appConfig);
-
             app.UseOwin().UseNancy(x => x.Bootstrapper = new NancyBootstraper(Services));
 
             if (env.IsDevelopment())

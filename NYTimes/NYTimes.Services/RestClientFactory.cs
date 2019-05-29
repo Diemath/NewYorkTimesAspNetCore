@@ -6,11 +6,11 @@ using System.Text;
 
 namespace NYTimes.Services
 {
-  public class RestClientFactory : IRestClientFactory
-  {
-    public IRestClient GetRestClient()
+    public class RestClientFactory : IRestClientFactory
     {
-      return new RestClient();
+        public IRestClient GetRestClient()
+        {
+            return new RestClient();
+        }
     }
-  }
 }
