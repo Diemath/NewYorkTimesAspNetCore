@@ -54,9 +54,9 @@ namespace NYTimes.NancyApi.NancyModules
                     return GetErrorResult(this, validationResult);
                 }
 
-                var dto = await _articleService.GetArticleAsync(
+                var dto = (await _articleService.FilterArticlesAsync(
                     ParseSection(@params.Section)
-                );
+                )).FirstOrDefault();
 
                 if (dto is null)
                 {

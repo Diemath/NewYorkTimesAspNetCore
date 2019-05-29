@@ -110,13 +110,22 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
-              .ReturnsAsync(new ArticleDto
-              {
-                  Title = "test-title",
-                  Url = "test-url",
-                  UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
-              });
+            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+                .ReturnsAsync(new ArticleDto[]
+                {
+                    new ArticleDto
+                    {
+                        Title = "test-title",
+                        Url = "test-url",
+                        UpdatedDateTime = DateTime.Parse("5/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
+                    },
+                    new ArticleDto
+                    {
+                        Title = "another-title",
+                        Url = "another-url",
+                        UpdatedDateTime = DateTime.Parse("6/24/2019 6:24:16 PM", CultureInfo.InvariantCulture)
+                    }
+                });
 
             var bootstrapper = new ConfigurableBootstrapper(with =>
             {
@@ -145,8 +154,8 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.GetArticleAsync(Section.Arts))
-              .ReturnsAsync((ArticleDto)null);
+            mockArticleService.Setup(g => g.FilterArticlesAsync(Section.Arts))
+              .ReturnsAsync(new ArticleDto[] { });
 
             var bootstrapper = new ConfigurableBootstrapper(with =>
             {

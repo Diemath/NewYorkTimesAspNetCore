@@ -12,10 +12,10 @@ namespace NYTimes.NancyApi.Test
         public ArticlesModuleTestBase()
         {
             // Setup default article service behavior
-            _mockArticleService.Setup(g => g.GetArticleAsync(It.IsAny<string>()))
+            _mockArticleService.Setup(s => s.GetArticleAsync(It.IsAny<string>()))
               .ReturnsAsync(new ArticleDto { });
-            _mockArticleService.Setup(g => g.GetArticleAsync(It.IsAny<Section>()))
-              .ReturnsAsync(new ArticleDto { });
+            _mockArticleService.Setup(s => s.FilterArticlesAsync(It.IsAny<Section>()))
+              .ReturnsAsync(new ArticleDto[] { new ArticleDto() });
         }
     }
 }

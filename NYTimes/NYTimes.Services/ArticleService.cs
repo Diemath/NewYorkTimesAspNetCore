@@ -5,7 +5,6 @@ using NYTimes.Services.Abstractions;
 using NYTimes.Services.Abstractions.Configurations;
 using NYTimes.Services.Abstractions.Dto;
 using NYTimes.Services.Abstractions.Enums;
-using NYTimes.Services.Abstractions.Exceptions;
 using NYTimes.Services.Json;
 using RestSharp;
 using System;
@@ -28,55 +27,37 @@ namespace NYTimes.Services
 
         public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section)
         {
-            CheckExceptions(section);
-
-            var result = (await FilterArticlesBySectionAsync(section))
+            var articles = (await FilterArticlesBySectionAsync(section))
               .Adapt<IEnumerable<ArticleDto>>();
-            return result;
+            return articles;
         }
 
         public async Task<IEnumerable<ArticleDto>> FilterArticlesAsync(Section section, DateTime updatedDate)
         {
-            CheckExceptions(section);
-
-            var result = (await FilterArticlesBySectionAsync(section))
+            var articles = (await FilterArticlesBySectionAsync(section))
               .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
               .Adapt<IEnumerable<ArticleDto>>();
-            return result;
+            return articles;
         }
 
         public async Task<ArticleDto> GetArticleAsync(string shortUrl)
         {
-            CheckExceptions(shortUrl);
-
-            var result = (await FilterArticlesBySectionAsync(Section.Home))
+            var article = (await FilterArticlesBySectionAsync(Section.Home))
               .FirstOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
               ?.Adapt<ArticleDto>();
-            return result;
-        }
-
-        public async Task<ArticleDto> GetArticleAsync(Section section)
-        {
-            CheckExceptions(section);
-
-            var result = (await FilterArticlesBySectionAsync(section))
-              .FirstOrDefault()
-              ?.Adapt<ArticleDto>();
-            return result;
+            return article;
         }
 
         public async Task<IEnumerable<ArticleGroupByDateDto>> GetGroupsAsync(Section section)
         {
-            CheckExceptions(section);
-
-            var result = (await FilterArticlesBySectionAsync(section))
+            var groups = (await FilterArticlesBySectionAsync(section))
               .GroupBy(x => x.UpdatedDateTime.Date)
               .Select(x => new ArticleGroupByDateDto
               {
                   Total = x.Count(),
                   UpdatedDate = x.Key
               });
-            return result;
+            return groups;
         }
 
         private async Task<IEnumerable<ArticleJson>> FilterArticlesBySectionAsync(Section section)
@@ -91,22 +72,6 @@ namespace NYTimes.Services
             var restResponse = await _restClient.ExecuteTaskAsync(request);
 
             return JsonConvert.DeserializeObject<ArticlesJson>(restResponse.Content).Results;
-        }
-
-        private void CheckExceptions(Section section)
-        {
-            if (!Enum.IsDefined(typeof(Section), section))
-            {
-                throw new UndefinedEnumException($"{nameof(UndefinedEnumException)}: {section}.");
-            }
-        }
-
-        private void CheckExceptions(string shortUrl)
-        {
-            if (shortUrl.Length != 7)
-            {
-                throw new UnvalidShortUrlException($"{nameof(UnvalidShortUrlException)}: valid format is XXXXXXX.");
-            }
         }
     }
 }
