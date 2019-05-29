@@ -27,40 +27,36 @@ namespace NYTimes.Services
 
         public async Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section)
         {
-            var articles = (await GetArticlesBySectionAsync(section))
-              .Adapt<IEnumerable<ArticleDto>>();
-            return articles;
+            var articles = await GetArticlesBySectionAsync(section);
+            return articles.Adapt<IEnumerable<ArticleDto>>();
         }
 
         public async Task<IEnumerable<ArticleDto>> GetArticlesAsync(Section section, DateTime updatedDate)
         {
             var articles = await GetArticlesBySectionAsync(section);
-            var articleDtos = articles 
+            return articles
                 .Where(x => x.UpdatedDateTime.Date == updatedDate.Date)
                 .Adapt<IEnumerable<ArticleDto>>();
-            return articleDtos;
         }
 
         public async Task<ArticleDto> GetArticleAsync(string shortUrl)
         {
             var articles = await GetArticlesBySectionAsync(Section.Home);
-            var articleDto = articles
-              .FirstOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
+            return articles
+              .SingleOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
               ?.Adapt<ArticleDto>();
-            return articleDto;
         }
 
         public async Task<IEnumerable<ArticleGroupByDateDto>> GetGroupsAsync(Section section)
         {
             var articles = await GetArticlesBySectionAsync(section);
-            var articleGroupDtos = articles
+            return articles
               .GroupBy(x => x.UpdatedDateTime.Date)
               .Select(x => new ArticleGroupByDateDto
               {
                   Total = x.Count(),
                   UpdatedDate = x.Key
               });
-            return articleGroupDtos;
         }
 
         private async Task<IEnumerable<ArticleJson>> GetArticlesBySectionAsync(Section section)
