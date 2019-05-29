@@ -70,6 +70,9 @@ namespace NYTimes.Services
 
             var restResponse = await _restClient.ExecuteTaskAsync(request);
 
+            if (!restResponse.IsSuccessful)
+                throw new Exception(restResponse.ErrorMessage);
+
             return JsonConvert.DeserializeObject<ArticlesJson>(restResponse.Content).Results;
         }
     }
