@@ -1,8 +1,12 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Nancy;
+using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Configuration;
+using NYTimes.Services.Configurations;
 
 namespace NYTimes.NancyApi.NancyModules
 {
@@ -34,6 +38,16 @@ namespace NYTimes.NancyApi.NancyModules
         protected override void RegisterNancyEnvironment(ILifetimeScope container, INancyEnvironment environment)
         {
             container.Update(builder => builder.RegisterInstance(environment));
+        }
+
+        protected override void RequestStartup(ILifetimeScope container, IPipelines pipelines, NancyContext context)
+        {
+            base.RequestStartup(container, pipelines, context);
+            
+            pipelines.AfterRequest.AddItemToEndOfPipeline(c =>
+            {
+                c.Response.Headers["Access-Control-Allow-Origin"] = container.Resolve<IOptions<HeaderOptions>>().Value.AccessControlAllowOrigin;
+            });
         }
     }
 }

@@ -5,5 +5,6 @@
         public string BaseUrl { get; set; }
         public string Id { get; set; }
         public string ShortUrlTemplate { get; set; }
+        public HeaderOptions Headers { get; set; }
     }
 }
