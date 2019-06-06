@@ -21,7 +21,7 @@ namespace NYTimes.NancyApi.Test
         [InlineData("/list/arts")]
         [InlineData("/list/arts/first")]
         [InlineData("/list/arts/2019-12-11")]
-        [InlineData("/article/short-url")]
+        [InlineData("/article/xxxxxxx")] // This is valid format
         [InlineData("/group/arts")]
         public async Task ReturnsStatusOkWhenRouteExists(string route)
         {
@@ -224,7 +224,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.GetArticleAsync("test-short-url"))
+            mockArticleService.Setup(g => g.GetArticleAsync("xxxxxxx"))  // This is valid format
               .ReturnsAsync(new ArticleDto
               {
                   Title = "test-title",
@@ -241,7 +241,7 @@ namespace NYTimes.NancyApi.Test
             var browser = new Browser(bootstrapper);
 
             // When
-            var result = await browser.Get($"/article/test-short-url", with =>
+            var result = await browser.Get($"/article/xxxxxxx", with =>
             {
                 with.HttpsRequest();
             });
@@ -259,7 +259,7 @@ namespace NYTimes.NancyApi.Test
         {
             // Given
             var mockArticleService = new Mock<IArticleService>(MockBehavior.Strict);
-            mockArticleService.Setup(g => g.GetArticleAsync("test-short-url"))
+            mockArticleService.Setup(g => g.GetArticleAsync("xxxxxxx")) // This is valid format
               .ReturnsAsync((ArticleDto)null);
 
             var bootstrapper = new ConfigurableBootstrapper(with =>
@@ -271,7 +271,7 @@ namespace NYTimes.NancyApi.Test
             var browser = new Browser(bootstrapper);
 
             // When
-            var result = await browser.Get($"/article/test-short-url", with =>
+            var result = await browser.Get($"/article/xxxxxxx", with =>
             {
                 with.HttpsRequest();
             });
