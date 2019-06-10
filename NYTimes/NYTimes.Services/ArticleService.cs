@@ -63,9 +63,9 @@ namespace NYTimes.Services
         {
             _restClient.BaseUrl = new Uri(_apiConfig.BaseUrl);
 
-            var request = new RestRequest("svc/topstories/v2/{section}.json", Method.GET);
+            var resource = _apiConfig.Resource.Replace("{section}", section.ToString().ToLower());
+            var request = new RestRequest(resource, Method.GET);
 
-            request.AddUrlSegment("section", section.ToString().ToLower());
             request.AddParameter("api-key", _apiConfig.Id);
 
             var restResponse = await _restClient.ExecuteTaskAsync(request);
