@@ -13,7 +13,7 @@ namespace NYTimes.Services.Abstractions
         /// </summary>
         /// <param name="shortUrl"></param>
         /// <returns></returns>
-        Task<ArticleDto> GetArticleAsync(string shortUrl);
+        Task<ArticleDto> GetArticleAsync(string key);
         /// <summary>
         /// Filters by article section.
         /// </summary>

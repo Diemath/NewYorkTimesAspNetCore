@@ -6,6 +6,7 @@ namespace NYTimes.Services.Abstractions.Dto
     {
         public string Title { get; set; }
         public string Url { get; set; }
+        public string ShortUrl { get; set; }
         public DateTime UpdatedDateTime { get; set; }
     }
 }

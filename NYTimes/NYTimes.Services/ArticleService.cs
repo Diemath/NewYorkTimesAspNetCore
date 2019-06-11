@@ -39,11 +39,11 @@ namespace NYTimes.Services
                 .Adapt<IEnumerable<ArticleDto>>();
         }
 
-        public async Task<ArticleDto> GetArticleAsync(string shortUrl)
+        public async Task<ArticleDto> GetArticleAsync(string key)
         {
             var articles = await GetArticlesBySectionAsync(Section.Home);
             return articles
-              .SingleOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{ShortUrlId}", shortUrl))
+              .SingleOrDefault(x => x.ShortUrl == _apiConfig.ShortUrlTemplate.Replace("{Key}", key))
               ?.Adapt<ArticleDto>();
         }
 
@@ -66,7 +66,7 @@ namespace NYTimes.Services
             var resource = _apiConfig.Resource.Replace("{section}", section.ToString().ToLower());
             var request = new RestRequest(resource, Method.GET);
 
-            request.AddParameter("api-key", _apiConfig.Id);
+            request.AddParameter("api-key", _apiConfig.Key);
 
             var restResponse = await _restClient.ExecuteTaskAsync(request);
 

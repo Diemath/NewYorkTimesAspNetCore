@@ -20,7 +20,7 @@ namespace NYTimes.Services.Test
             _mockApiConfig.SetupGet(c => c.Value).Returns(new ApiOptions
             {
                 BaseUrl = "https://api.sometesturl.com/",
-                Id = "test-unique-identifier",
+                Key = "test-unique-identifier",
                 ShortUrlTemplate = "https://nyti.ms/{ShortUrlId}"
             }
             );
