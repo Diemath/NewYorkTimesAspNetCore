@@ -35,24 +35,30 @@ namespace NYTimes.Services.Test
             apiOptions.Resource = resource;
         }
         
-        [When(@"I get articles by section ""(.*)""")]
-        public async Task WhenIGetArticlesBySection(Section section)
+        [When(@"I get articles by some section")]
+        public async Task WhenIGetArticlesBySomeSection()
         {
-            await targetArticleService.GetArticlesAsync(section);
+            await targetArticleService.GetArticlesAsync(Section.Arts);
         }
         
-        [When(@"I get articles by section ""(.*)"" and updated date ""(.*)""")]
-        public async Task WhenIGetArticlesBySectionAndUpdatedDate(Section section, DateTime updatedDate)
+        [When(@"I get articles by some section and some updated date")]
+        public async Task WhenIGetArticlesBySomeSectionAndSomeUpdatedDate()
         {
-            await targetArticleService.GetArticlesAsync(section, updatedDate);
+            await targetArticleService.GetArticlesAsync(Section.Arts, DateTime.Now);
         }
         
-        [When(@"I get article groups by section ""(.*)""")]
-        public async Task WhenIGetArticleGroupsBySection(Section section)
+        [When(@"I get article groups by some section")]
+        public async Task WhenIGetArticleGroupsBySomeSection()
         {
-            await targetArticleService.GetGroupsAsync(section);
+            await targetArticleService.GetGroupsAsync(Section.Arts);
         }
-        
+
+        [When(@"I get article by some key")]
+        public async Task WhenIGetArticleBySomeKey()
+        {
+            await targetArticleService.GetArticleAsync("2YNxSD2");
+        }
+
         [Then(@"backend rest client will use ""(.*)"" like base API url")]
         public void ThenBackendRestClientWillUseLikeBaseAPIUrl(string baseUrl)
         {

@@ -19,7 +19,8 @@ namespace NYTimes.Services.Test
         {
             BaseUrl = "https://api.someapi.com/",
             Key = string.Empty,
-            Resource = string.Empty
+            Resource = "svc/topstories/v2/{section}.json",
+            ShortUrlTemplate = "https://nyti.ms/{Key}"
         };
 
         public StepDefinitionsBase()

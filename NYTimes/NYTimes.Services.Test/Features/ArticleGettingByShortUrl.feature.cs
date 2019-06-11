@@ -93,7 +93,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.When("I get article by key \"2YNxSD2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then("the result will be an article with short url \"https://nyti.ms/2YNxSD2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("rest client will use \"svc/topstories/v2/home.json\" like resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.And("the result will be an article with short url \"https://nyti.ms/2YNxSD2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

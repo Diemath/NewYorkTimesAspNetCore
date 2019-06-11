@@ -90,19 +90,19 @@ namespace NYTimes.Services.Test.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Get articles by section")]
+        [Xunit.FactAttribute(DisplayName="Get articles by some section")]
         [Xunit.TraitAttribute("FeatureTitle", "Articles Getting API Integration")]
-        [Xunit.TraitAttribute("Description", "Get articles by section")]
-        public virtual void GetArticlesBySection()
+        [Xunit.TraitAttribute("Description", "Get articles by some section")]
+        public virtual void GetArticlesBySomeSection()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get articles by section", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get articles by some section", null, ((string[])(null)));
 #line 10
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 5
 this.FeatureBackground();
 #line 11
- testRunner.When("I get articles by section \"Arts\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I get articles by some section", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("backend rest client will use \"https://api.someapi.com/\" like base API url", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
@@ -113,19 +113,19 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Get articles by section and updated date")]
+        [Xunit.FactAttribute(DisplayName="Get articles by some section and some updated date")]
         [Xunit.TraitAttribute("FeatureTitle", "Articles Getting API Integration")]
-        [Xunit.TraitAttribute("Description", "Get articles by section and updated date")]
-        public virtual void GetArticlesBySectionAndUpdatedDate()
+        [Xunit.TraitAttribute("Description", "Get articles by some section and some updated date")]
+        public virtual void GetArticlesBySomeSectionAndSomeUpdatedDate()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get articles by section and updated date", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get articles by some section and some updated date", null, ((string[])(null)));
 #line 16
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 5
 this.FeatureBackground();
 #line 17
- testRunner.When("I get articles by section \"Arts\" and updated date \"6/10/2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I get articles by some section and some updated date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
  testRunner.Then("backend rest client will use \"https://api.someapi.com/\" like base API url", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 19
@@ -136,24 +136,47 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Get article groups by section")]
+        [Xunit.FactAttribute(DisplayName="Get article groups by some section")]
         [Xunit.TraitAttribute("FeatureTitle", "Articles Getting API Integration")]
-        [Xunit.TraitAttribute("Description", "Get article groups by section")]
-        public virtual void GetArticleGroupsBySection()
+        [Xunit.TraitAttribute("Description", "Get article groups by some section")]
+        public virtual void GetArticleGroupsBySomeSection()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get article groups by section", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get article groups by some section", null, ((string[])(null)));
 #line 22
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 5
 this.FeatureBackground();
 #line 23
- testRunner.When("I get article groups by section \"Arts\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I get article groups by some section", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
  testRunner.Then("backend rest client will use \"https://api.someapi.com/\" like base API url", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 25
  testRunner.And("\"svc/topstories/v2/arts.json\" like resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 26
+ testRunner.And("will has a parameter \"api-key\" with value \"some-key\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Get article by some key")]
+        [Xunit.TraitAttribute("FeatureTitle", "Articles Getting API Integration")]
+        [Xunit.TraitAttribute("Description", "Get article by some key")]
+        public virtual void GetArticleBySomeKey()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get article by some key", null, ((string[])(null)));
+#line 28
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 5
+this.FeatureBackground();
+#line 29
+ testRunner.When("I get article by some key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+ testRunner.Then("backend rest client will use \"https://api.someapi.com/\" like base API url", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 31
+ testRunner.And("\"svc/topstories/v2/home.json\" like resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 32
  testRunner.And("will has a parameter \"api-key\" with value \"some-key\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

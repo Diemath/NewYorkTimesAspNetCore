@@ -1,4 +1,6 @@
-﻿using NYTimes.Services.Abstractions.Dto;
+﻿using Moq;
+using NYTimes.Services.Abstractions.Dto;
+using RestSharp;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -23,11 +25,6 @@ namespace NYTimes.Services.Test
         ";
         private ArticleDto result;
 
-        public ArticleGettingByShortUrlSteps()
-        {
-            apiOptions.ShortUrlTemplate = "https://nyti.ms/{Key}"; // Config is not important for this feature       
-        }
-
         [Given(@"New York Times API returns two articles\. First one has short url ""(.*)""")]
         public void GivenNewYorkTimesAPIReturnsTwoArticles_FirstOneHasShortUrl(string shortUrl)
         {
@@ -46,7 +43,17 @@ namespace NYTimes.Services.Test
         {
             result = await targetArticleService.GetArticleAsync(key);
         }
-        
+
+        [Then(@"rest client will use ""(.*)"" like resource")]
+        public void ThenRestClientWillUseLikeResource(string resource)
+        {
+            mockRestClient.Verify(
+                c => c.ExecuteTaskAsync(It.Is<RestRequest>(
+                    r => r.Resource == resource)),
+                Times.Once
+            );
+        }
+
         [Then(@"the result will be an article with short url ""(.*)""")]
         public void ThenTheResultWillBeAnArticleWithShortUrl(string shortUrl)
         {
