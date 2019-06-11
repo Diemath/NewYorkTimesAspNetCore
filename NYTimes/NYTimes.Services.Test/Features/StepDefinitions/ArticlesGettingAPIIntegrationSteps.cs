@@ -10,7 +10,7 @@ using TechTalk.SpecFlow;
 namespace NYTimes.Services.Test
 {
     [Binding]
-    public class ArticlesGettingAPIIntegrationSteps : TestBase
+    public class ArticlesGettingAPIIntegrationSteps : StepDefinitionsBase
     {
         public ArticlesGettingAPIIntegrationSteps()
         {

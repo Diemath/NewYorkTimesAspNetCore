@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NYTimes.Services.Test
 {
-    public abstract class TestBase
+    public abstract class StepDefinitionsBase
     {
         protected readonly Mock<IOptions<ApiOptions>> mockApiConfig = new Mock<IOptions<ApiOptions>>();
         protected readonly Mock<IRestClientFactory> mockRestClientFactory = new Mock<IRestClientFactory>();
@@ -22,7 +22,7 @@ namespace NYTimes.Services.Test
             Resource = string.Empty
         };
 
-        public TestBase()
+        public StepDefinitionsBase()
         {
             mockApiConfig.SetupGet(c => c.Value).Returns(apiOptions);
         }

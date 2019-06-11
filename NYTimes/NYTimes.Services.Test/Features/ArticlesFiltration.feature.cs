@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace NYTimes.Services.Test
+namespace NYTimes.Services.Test.Features
 {
     using TechTalk.SpecFlow;
     

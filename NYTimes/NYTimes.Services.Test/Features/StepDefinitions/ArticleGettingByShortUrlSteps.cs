@@ -6,7 +6,7 @@ using Xunit;
 namespace NYTimes.Services.Test
 {
     [Binding]
-    public class ArticleGettingByShortUrlSteps : TestBase
+    public class ArticleGettingByShortUrlSteps : StepDefinitionsBase
     {
         private string articles =
         @"

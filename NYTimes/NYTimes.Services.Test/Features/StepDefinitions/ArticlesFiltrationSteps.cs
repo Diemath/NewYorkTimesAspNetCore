@@ -10,7 +10,7 @@ using Xunit;
 namespace NYTimes.Services.Test
 {
     [Binding]
-    public class ArticlesFiltrationSteps : TestBase
+    public class ArticlesFiltrationSteps : StepDefinitionsBase
     {
         private string articles = 
         @"
